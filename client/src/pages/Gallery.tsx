@@ -48,7 +48,7 @@ const Gallery = () => {
   useEffect(() => {
     const loadMedia = async () => {
       try {
-        const { data } = await axios.get<MediaItem[]>(`${import.meta.env.VITE_API_BASE_URL || '/api'}/media`)
+        const { data } = await axios.get<MediaItem[]>(`${import.meta.env.VITE_API_BASE_URL || '/api'}/gallery`)
         setDisplayedMedia(data)
         setIsLoading(false)
       } catch (error) {
