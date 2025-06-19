@@ -1,0 +1,11 @@
+{
+  "name": "mc-girls-soccer-camps",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "cd client && npm run dev",
+    "build": "cd client && npm run build",
+    "install-all": "npm install && cd client && npm install && cd ../api && npm install",
+    "vercel-build": "cd client && npm run build"
+  },
+  "devDependencies": {}
+}

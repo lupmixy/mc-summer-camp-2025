@@ -1,0 +1,21 @@
+/* Tailwind color variables */
+:root {
+  --mc-blue: #003087;
+  --mc-gold: #C5B358;
+  --mc-blue-dark: #002066;
+  --mc-gold-light: #D6C47A;
+  --gray-800: #1f2937;
+}
+
+/* Basic reset that would be provided by Tailwind base */
+html {
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  line-height: inherit;
+}
