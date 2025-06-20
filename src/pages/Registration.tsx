@@ -420,26 +420,38 @@ const RegistrationForm = () => {
               ${(CAMP_PRICES[formData.program] / 100).toFixed(2)}
             </p>
           </div>
-          <div className="mt-4 p-4 border rounded-lg">
-            <label className="block text-gray-700 text-sm font-bold mb-2">
+          <div className="mt-4 p-6 border-2 border-mc-gold rounded-lg bg-white shadow-lg">
+            <label className="block text-gray-700 text-sm font-bold mb-3 flex items-center">
+              <span className="text-mc-gold mr-2">💳</span>
               Card Details
             </label>
-            <CardElement
-              options={{
-                style: {
-                  base: {
-                    fontSize: '16px',
-                    color: '#424770',
-                    '::placeholder': {
-                      color: '#aab7c4',
+            <div className="p-4 border-2 border-mc-gold/30 rounded-md bg-gray-50 focus-within:border-mc-gold focus-within:bg-white transition-all">
+              <CardElement
+                options={{
+                  style: {
+                    base: {
+                      fontSize: '18px',
+                      color: '#1e3a8a',
+                      fontFamily: '"Inter", "Helvetica Neue", Helvetica, sans-serif',
+                      fontWeight: '500',
+                      '::placeholder': {
+                        color: '#6b7280',
+                      },
+                    },
+                    invalid: {
+                      color: '#dc2626',
+                    },
+                    complete: {
+                      color: '#059669',
                     },
                   },
-                  invalid: {
-                    color: '#9e2146',
-                  },
-                },
-              }}
-            />
+                }}
+              />
+            </div>
+            <p className="text-sm text-gray-600 mt-2 flex items-center">
+              <span className="text-green-500 mr-1">🔒</span>
+              Your payment information is encrypted and secure
+            </p>
           </div>
         </div>
       </div>

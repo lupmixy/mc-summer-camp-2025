@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
 
 type MediaItem = {
   id: number
@@ -48,8 +47,75 @@ const Gallery = () => {
   useEffect(() => {
     const loadMedia = async () => {
       try {
-        const { data } = await axios.get<MediaItem[]>(`${import.meta.env.VITE_API_BASE_URL || '/api'}/gallery`)
-        setDisplayedMedia(data)
+        // Load all images from the static gallery directory
+        // This will work the same in development and production
+        const imageFilenames = [
+          'mcSoccerCamp2024-28.jpg',
+          'mcSoccerCamp2024-29.jpg',
+          'mcSoccerCamp2024-30.jpg',
+          'mcSoccerCamp2024-31.jpg',
+          'mcSoccerCamp2024-32.jpg',
+          'mcSoccerCamp2024-33.jpg',
+          'mcSoccerCamp2024-34.jpg',
+          'mcSoccerCamp2024-35.jpg',
+          'mcSoccerCamp2024-36.jpg',
+          'mcSoccerCamp2024-37.jpg',
+          'mcSoccerCamp2024-38.jpg',
+          'mcSoccerCamp2024-39.jpg',
+          'mcSoccerCamp2024-40.jpg',
+          'mcSoccerCamp2024-41.jpg',
+          'mcSoccerCamp2024-42.jpg',
+          'mcSoccerCamp2024-43.jpg',
+          'mcSoccerCamp2024-44.jpg',
+          'mcSoccerCamp2024-45.jpg',
+          'mcSoccerCamp2024-46.jpg',
+          'mcSoccerCamp2024-47.jpg',
+          'mcSoccerCamp2024-48.jpg',
+          'mcSoccerCamp2024-49.jpg',
+          'mcSoccerCamp2024-50.jpg',
+          'mcSoccerCamp2024-51.jpg',
+          'mcSoccerCamp2024-52.jpg',
+          'mcSoccerCamp2024-53.jpg',
+          'mcSoccerCamp2024-54.jpg',
+          'IMG_1415-Animated Image (Large).gif',
+          'IMG_1416-Animated Image (Large).gif',
+          'IMG_1417-Animated Image (Large).gif',
+          'IMG_1418-Animated Image (Large).gif',
+          'IMG_1419-Animated Image (Large).gif',
+          'IMG_1420-Animated Image (Large).gif',
+          'IMG_1421-Animated Image (Large).gif',
+          'IMG_1424-Animated Image (Large).gif',
+          'IMG_1426-Animated Image (Large).gif',
+          'IMG_1428-Animated Image (Large).gif',
+          'IMG_1429-Animated Image (Large).gif',
+          'IMG_1431-Animated Image (Large).gif',
+          'IMG_1432-Animated Image (Large).gif',
+          'IMG_1433-Animated Image (Large).gif',
+          'IMG_1434-Animated Image (Large).gif',
+          'IMG_1435-Animated Image (Large).gif',
+          'IMG_1436-Animated Image (Large).gif',
+          'IMG_1437-Animated Image (Large).gif',
+          'IMG_1439-Animated Image (Large).gif',
+          'IMG_1440-Animated Image (Large).gif',
+          'IMG_1441-Animated Image (Large).gif',
+          'IMG_1442 copy-Animated Image (Large).gif',
+          'IMG_1442-Animated Image (Large).gif',
+          'IMG_1443-Animated Image (Large).gif',
+          'IMG_1444-Animated Image (Large).gif',
+          'IMG_1445-Animated Image (Large).gif',
+          'IMG_1446 (1)-Animated Image (Large).gif',
+          'IMG_1446-Animated Image (Large).gif',
+          'IMG_1447-Animated Image (Large).gif'
+        ]
+        
+        const mediaItems = imageFilenames.map((filename, index) => ({
+          id: index + 1,
+          type: 'image' as const,
+          src: `/media/gallery/${filename}`,
+          format: filename.endsWith('.gif') ? 'gif' : 'jpg'
+        }))
+        
+        setDisplayedMedia(mediaItems)
         setIsLoading(false)
       } catch (error) {
         console.error('Failed to load media:', error)

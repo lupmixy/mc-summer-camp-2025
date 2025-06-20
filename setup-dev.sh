@@ -11,17 +11,11 @@ if [ ! -f ".env.local" ]; then
     echo "⚠️  Please edit .env.local and add your actual environment variables"
 fi
 
-if [ ! -f "client/.env.local" ]; then
-    echo "📝 Creating client/.env.local from template..."
-    cp client/.env.local.example client/.env.local
-    echo "⚠️  Please edit client/.env.local and add your Stripe publishable key"
-fi
-
 echo "📦 Installing dependencies..."
-npm run install-all
+npm install
 
-echo "🏗️  Building client..."
-cd client && npm run build && cd ..
+echo "🏗️  Building application..."
+npm run build
 
 echo "✅ Development environment ready!"
 echo ""

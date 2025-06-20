@@ -25,28 +25,26 @@ This project is built for deployment on Vercel with:
 /
 ├── api/                     # Vercel serverless functions
 │   ├── create-payment-intent.ts
-│   ├── register.ts
-│   ├── media.ts
-│   └── package.json
-├── client/                  # React frontend
-│   ├── public/
-│   │   ├── branding/       # Logo and brand assets
-│   │   ├── images/hero/    # Hero section images
-│   │   └── media/gallery/  # Gallery images
-│   ├── src/
-│   │   ├── components/     # Reusable components
-│   │   ├── pages/          # Page components
-│   │   └── utils/          # Utility functions
-│   └── package.json
+│   └── register.ts
+├── public/                  # Static assets
+│   ├── branding/           # Logo and brand assets
+│   ├── images/hero/        # Hero section images
+│   └── media/gallery/      # Gallery images
+├── src/                    # React frontend source
+│   ├── components/         # Reusable components
+│   ├── pages/              # Page components
+│   └── utils/              # Utility functions
+├── index.html              # Main HTML file
+├── vite.config.ts          # Vite configuration
+├── tailwind.config.js      # Tailwind CSS configuration
 ├── vercel.json             # Vercel deployment configuration
-└── package.json            # Root package.json
+└── package.json            # Dependencies and scripts
 ```
 
 ## API Endpoints
 
 - `POST /api/register` - Submit registration data
 - `POST /api/create-payment-intent` - Create Stripe payment intent
-- `GET /api/media` - Get gallery images
 
 ## Environment Variables
 
@@ -59,11 +57,6 @@ SMTP_HOST=your_smtp_host
 SMTP_PORT=587
 SMTP_USER=your_smtp_username
 SMTP_PASS=your_smtp_password
-```
-
-### Required for Client (Vercel)
-
-```bash
 VITE_STRIPE_PUBLISHABLE_KEY=pk_live_...
 ```
 
@@ -71,14 +64,13 @@ VITE_STRIPE_PUBLISHABLE_KEY=pk_live_...
 
 1. **Clone and install dependencies:**
    ```bash
-   npm run install-all
+   npm install
    ```
 
 2. **Set up environment variables:**
    ```bash
    # Copy and configure environment files
    cp .env.example .env.local
-   cp client/.env.local.example client/.env.local
    ```
 
 3. **Start development server:**
@@ -91,13 +83,12 @@ VITE_STRIPE_PUBLISHABLE_KEY=pk_live_...
 1. **Connect GitHub repository to Vercel**
 
 2. **Configure environment variables in Vercel dashboard:**
-   - Add all production environment variables
-   - Ensure `VITE_STRIPE_PUBLISHABLE_KEY` is set for the client
+   - Add all production environment variables from the list above
 
 3. **Deploy:**
    - Vercel will automatically build and deploy on push to main branch
-   - Build command: `cd client && npm run build`
-   - Output directory: `client/dist`
+   - Build command: `npm run build`
+   - Output directory: `dist`
 
 ## Key Features
 

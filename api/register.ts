@@ -7,7 +7,7 @@ const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/mc-soccer-camp
 const client = new MongoClient(uri)
 
 // Email configuration
-const transporter = nodemailer.createTransporter({
+const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT),
   secure: false,
@@ -131,7 +131,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     console.log('Checking required fields:', JSON.stringify(requiredFields, null, 2))
 
     const missingFields = Object.entries(requiredFields)
-      .filter(([_, value]) => !value)
+      .filter(([, value]) => !value)
       .map(([key]) => key)
 
     if (missingFields.length > 0) {
