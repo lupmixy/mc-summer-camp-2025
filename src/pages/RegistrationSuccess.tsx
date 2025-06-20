@@ -26,6 +26,7 @@ const RegistrationSuccess = () => {
     if (storedData) {
       try {
         const parsedData = JSON.parse(storedData)
+        console.log('Registration success data:', parsedData)
         setRegistrationInfo(parsedData)
         // Clear the data after reading it
         sessionStorage.removeItem('registrationData')
@@ -71,6 +72,33 @@ const RegistrationSuccess = () => {
               registrationId={registrationInfo.registrationId}
               playerName={`${registrationInfo.registrationData.playerFirstName} ${registrationInfo.registrationData.playerLastName}`}
             />
+          </div>
+        )}
+        
+        {/* Show message when registrationId is missing */}
+        {registrationInfo && !registrationInfo.registrationId && (
+          <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+            <div className="text-yellow-800">
+              <h3 className="text-lg font-semibold mb-2">📄 Waiver Required</h3>
+              <p className="mb-4">
+                Please download, print, sign, and email the completed waiver form to:{' '}
+                <a 
+                  href="mailto:mcgirlssoccer12@gmail.com" 
+                  className="text-mc-blue hover:text-mc-blue-dark underline font-medium"
+                >
+                  mcgirlssoccer12@gmail.com
+                </a>
+              </p>
+              <a
+                href="/documents/MC_Girls_Soccer_Camp_Waiver_2025.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center bg-mc-blue text-white px-4 py-2 rounded-md hover:bg-mc-blue-dark transition-colors text-sm font-medium"
+              >
+                <span className="mr-2">📥</span>
+                Download Waiver Form
+              </a>
+            </div>
           </div>
         )}
         

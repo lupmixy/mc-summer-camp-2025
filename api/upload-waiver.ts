@@ -54,6 +54,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Registration ID and player name are required' })
     }
 
+    // Validate registrationId is a valid MongoDB ObjectId
+    if (!ObjectId.isValid(registrationId)) {
+      console.error('Invalid registrationId format:', registrationId)
+      return res.status(400).json({ error: 'Invalid registration ID format' })
+    }
+
     const uploadedFile = Array.isArray(files.waiver) ? files.waiver[0] : files.waiver
     
     if (!uploadedFile) {
