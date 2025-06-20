@@ -492,7 +492,11 @@ const RegistrationForm = () => {
       <button
         type="submit"
         disabled={isProcessing || !formData.agreedToTerms || !formData.hasSignedWaiver}
-        className="w-full bg-mc-gold text-mc-blue font-bold py-4 px-8 rounded-md hover:bg-mc-gold-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full bg-mc-gold text-mc-blue font-bold py-4 px-8 rounded-md text-lg
+                   hover:bg-mc-gold-light hover:text-mc-blue-dark
+                   focus:outline-none focus:ring-4 focus:ring-mc-gold/50 
+                   disabled:bg-mc-gold/50 disabled:text-mc-blue/70 disabled:cursor-not-allowed
+                   transition-colors duration-200 ease-in-out"
       >
         {isProcessing ? 'Processing...' : 'Complete Registration'}
       </button>
