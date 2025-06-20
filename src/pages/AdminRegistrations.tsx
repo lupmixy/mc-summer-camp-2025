@@ -3,6 +3,7 @@ import axios from 'axios'
 
 interface Registration {
   id: string
+  type: 'registration'
   playerName: string
   parentName: string
   email: string
@@ -21,12 +22,26 @@ interface Registration {
   status: string
 }
 
+interface ContactSubmission {
+  id: string
+  type: 'contact'
+  name: string
+  email: string
+  phone?: string
+  subject: string
+  message: string
+  createdAt: string
+  status: string
+}
+
 const AdminRegistrations = () => {
   const [registrations, setRegistrations] = useState<Registration[]>([])
+  const [contacts, setContacts] = useState<ContactSubmission[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [adminKey, setAdminKey] = useState('')
   const [authenticated, setAuthenticated] = useState(false)
+  const [activeTab, setActiveTab] = useState<'registrations' | 'contacts'>('registrations')
 
   const fetchRegistrations = async () => {
     if (!adminKey) {
@@ -45,14 +60,15 @@ const AdminRegistrations = () => {
       })
 
       setRegistrations(response.data.registrations)
+      setContacts(response.data.contacts)
       setAuthenticated(true)
     } catch (err) {
       if (axios.isAxiosError(err) && err.response?.status === 401) {
         setError('Invalid admin key')
       } else {
-        setError('Failed to fetch registrations')
+        setError('Failed to fetch admin data')
       }
-      console.error('Error fetching registrations:', err)
+      console.error('Error fetching admin data:', err)
     } finally {
       setLoading(false)
     }
@@ -83,47 +99,100 @@ const AdminRegistrations = () => {
     }
   }
 
-  const formatCurrency = (amount: number) => {
-    return `$${(amount / 100).toFixed(2)}`
-  }
-
-  const exportToCSV = () => {
+  const exportRegistrationsToCSV = () => {
     if (registrations.length === 0) return
 
     const headers = [
-      'Player Name', 'Parent Name', 'Email', 'Phone', 'Program', 'Position', 
-      'Shirt Size', 'Emergency Contact', 'Emergency Phone', 'Medical Conditions',
-      'Date of Birth', 'Fun Fact', 'Amount', 'Registration Date', 'Status'
+      'Player Name',
+      'Parent Name', 
+      'Email',
+      'Phone',
+      'Program',
+      'Position',
+      'Shirt Size',
+      'Emergency Contact',
+      'Emergency Phone',
+      'Medical Conditions',
+      'Date of Birth',
+      'Fun Fact',
+      'Payment Status',
+      'Amount',
+      'Registration Date',
+      'Status'
     ]
 
     const csvContent = [
       headers.join(','),
       ...registrations.map(reg => [
-        reg.playerName,
-        reg.parentName,
-        reg.email,
-        reg.phone,
-        reg.program,
-        reg.position,
-        reg.shirtSize,
-        reg.emergencyContact,
-        reg.emergencyPhone,
-        `"${reg.medicalConditions || 'None'}"`,
-        reg.dateOfBirth,
+        `"${reg.playerName}"`,
+        `"${reg.parentName}"`,
+        `"${reg.email}"`,
+        `"${reg.phone}"`,
+        `"${reg.program}"`,
+        `"${reg.position || ''}"`,
+        `"${reg.shirtSize}"`,
+        `"${reg.emergencyContact}"`,
+        `"${reg.emergencyPhone}"`,
+        `"${reg.medicalConditions || ''}"`,
+        `"${formatDateOfBirth(reg.dateOfBirth)}"`,
         `"${reg.funFact || ''}"`,
-        formatCurrency(reg.amount),
-        formatDate(reg.createdAt),
-        reg.status
+        `"${reg.paymentStatus}"`,
+        `"${reg.amount || ''}"`,
+        `"${new Date(reg.createdAt).toLocaleDateString()}"`,
+        `"${reg.status}"`
       ].join(','))
     ].join('\n')
 
-    const blob = new Blob([csvContent], { type: 'text/csv' })
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `mc-soccer-camp-registrations-${new Date().toISOString().split('T')[0]}.csv`
-    a.click()
-    window.URL.revokeObjectURL(url)
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    const url = URL.createObjectURL(blob)
+    link.setAttribute('href', url)
+    link.setAttribute('download', `mc-soccer-registrations-${new Date().toISOString().split('T')[0]}.csv`)
+    link.style.visibility = 'hidden'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
+  const exportContactsToCSV = () => {
+    if (contacts.length === 0) return
+
+    const headers = [
+      'Name',
+      'Email',
+      'Phone',
+      'Subject',
+      'Message',
+      'Submission Date',
+      'Status'
+    ]
+
+    const csvContent = [
+      headers.join(','),
+      ...contacts.map(contact => [
+        `"${contact.name}"`,
+        `"${contact.email}"`,
+        `"${contact.phone || ''}"`,
+        `"${contact.subject}"`,
+        `"${contact.message.replace(/"/g, '""')}"`, // Escape quotes in message
+        `"${new Date(contact.createdAt).toLocaleDateString()}"`,
+        `"${contact.status}"`
+      ].join(','))
+    ].join('\n')
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+    const link = document.createElement('a')
+    const url = URL.createObjectURL(blob)
+    link.setAttribute('href', url)
+    link.setAttribute('download', `mc-soccer-contacts-${new Date().toISOString().split('T')[0]}.csv`)
+    link.style.visibility = 'hidden'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  }
+
+  const formatCurrency = (amount: number) => {
+    return `$${(amount / 100).toFixed(2)}`
   }
 
   if (!authenticated) {
@@ -174,17 +243,20 @@ const AdminRegistrations = () => {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold">MC Soccer Camp Admin</h1>
-            <p className="text-mc-gold">Registration Management</p>
+            <p className="text-mc-gold">Administrative Dashboard</p>
           </div>
           <div className="flex items-center space-x-4">
             <span className="text-sm">
-              Total Registrations: <span className="font-bold text-mc-gold">{registrations.length}</span>
+              Registrations: <span className="font-bold text-mc-gold">{registrations.length}</span>
+            </span>
+            <span className="text-sm">
+              Contacts: <span className="font-bold text-mc-gold">{contacts.length}</span>
             </span>
             <button
-              onClick={exportToCSV}
+              onClick={activeTab === 'registrations' ? exportRegistrationsToCSV : exportContactsToCSV}
               className="bg-mc-gold text-mc-blue px-4 py-2 rounded-md font-bold hover:bg-mc-gold-light transition-colors"
             >
-              Export CSV
+              Export {activeTab === 'registrations' ? 'Registrations' : 'Contacts'} CSV
             </button>
             <button
               onClick={() => setAuthenticated(false)}
@@ -197,75 +269,168 @@ const AdminRegistrations = () => {
       </div>
 
       <div className="max-w-7xl mx-auto p-6">
-        {loading ? (
-          <div className="text-center py-8">
-            <div className="text-lg">Loading registrations...</div>
+        {/* Tabs */}
+        <div className="bg-white rounded-lg shadow-sm mb-6">
+          <div className="border-b border-gray-200">
+            <nav className="-mb-px flex space-x-8">
+              <button
+                onClick={() => setActiveTab('registrations')}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                  activeTab === 'registrations'
+                    ? 'border-mc-gold text-mc-blue'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                Registrations ({registrations.length})
+              </button>
+              <button
+                onClick={() => setActiveTab('contacts')}
+                className={`py-4 px-1 border-b-2 font-medium text-sm ${
+                  activeTab === 'contacts'
+                    ? 'border-mc-gold text-mc-blue'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                Contact Submissions ({contacts.length})
+              </button>
+            </nav>
           </div>
-        ) : registrations.length === 0 ? (
-          <div className="text-center py-8">
-            <div className="text-lg text-gray-600">No registrations found</div>
+        </div>
+
+        {/* Content based on active tab */}
+        {activeTab === 'registrations' ? (
+          <div className="bg-white rounded-lg shadow overflow-hidden">
+            {loading ? (
+              <div className="text-center py-8">
+                <div className="text-lg">Loading registrations...</div>
+              </div>
+            ) : registrations.length === 0 ? (
+              <div className="text-center py-8">
+                <div className="text-lg text-gray-600">No registrations found</div>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Player</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Parent</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Program</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Emergency</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {registrations.map((reg) => (
+                      <tr key={reg.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="font-medium text-gray-900">{reg.playerName}</div>
+                          <div className="text-sm text-gray-500">DOB: {formatDateOfBirth(reg.dateOfBirth)}</div>
+                          <div className="text-sm text-gray-500">Size: {reg.shirtSize}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="font-medium text-gray-900">{reg.parentName}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{reg.email}</div>
+                          <div className="text-sm text-gray-500">{reg.phone}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="font-medium text-gray-900 capitalize">{reg.program}</div>
+                          <div className="text-sm text-gray-500">{reg.position}</div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-900">
+                            {reg.medicalConditions && (
+                              <div><strong>Medical:</strong> {reg.medicalConditions}</div>
+                            )}
+                            {reg.funFact && (
+                              <div><strong>Fun Fact:</strong> {reg.funFact}</div>
+                            )}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{reg.emergencyContact}</div>
+                          <div className="text-sm text-gray-500">{reg.emergencyPhone}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="font-medium text-gray-900">{formatCurrency(reg.amount)}</div>
+                          <div className="text-sm text-green-600">{reg.paymentStatus}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {formatDate(reg.createdAt)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         ) : (
           <div className="bg-white rounded-lg shadow overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Player</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Parent</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Program</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Emergency</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {registrations.map((reg) => (
-                    <tr key={reg.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="font-medium text-gray-900">{reg.playerName}</div>
-                        <div className="text-sm text-gray-500">DOB: {formatDateOfBirth(reg.dateOfBirth)}</div>
-                        <div className="text-sm text-gray-500">Size: {reg.shirtSize}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="font-medium text-gray-900">{reg.parentName}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{reg.email}</div>
-                        <div className="text-sm text-gray-500">{reg.phone}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="font-medium text-gray-900 capitalize">{reg.program}</div>
-                        <div className="text-sm text-gray-500">{reg.position}</div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="text-sm text-gray-900">
-                          {reg.medicalConditions && (
-                            <div><strong>Medical:</strong> {reg.medicalConditions}</div>
-                          )}
-                          {reg.funFact && (
-                            <div><strong>Fun Fact:</strong> {reg.funFact}</div>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900">{reg.emergencyContact}</div>
-                        <div className="text-sm text-gray-500">{reg.emergencyPhone}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="font-medium text-gray-900">{formatCurrency(reg.amount)}</div>
-                        <div className="text-sm text-green-600">{reg.paymentStatus}</div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {formatDate(reg.createdAt)}
-                      </td>
+            {loading ? (
+              <div className="text-center py-8">
+                <div className="text-lg">Loading contact submissions...</div>
+              </div>
+            ) : contacts.length === 0 ? (
+              <div className="text-center py-8">
+                <div className="text-lg text-gray-600">No contact submissions found</div>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Message</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {contacts.map((contact) => (
+                      <tr key={contact.id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="font-medium text-gray-900">{contact.name}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{contact.email}</div>
+                          {contact.phone && (
+                            <div className="text-sm text-gray-500">{contact.phone}</div>
+                          )}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">{contact.subject}</div>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="text-sm text-gray-900 max-w-xs truncate">
+                            {contact.message}
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {formatDate(contact.createdAt)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                            contact.status === 'new' 
+                              ? 'bg-blue-100 text-blue-800'
+                              : 'bg-green-100 text-green-800'
+                          }`}>
+                            {contact.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
       </div>

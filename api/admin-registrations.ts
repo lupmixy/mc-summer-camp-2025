@@ -51,19 +51,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   let client: MongoClient | null = null
 
   try {
-    console.log('Connecting to MongoDB for admin registrations...')
+    console.log('Connecting to MongoDB for admin data...')
     client = await connectToMongoDB()
     const db = client.db('mc-soccer-camps')
     
+    // Get all registrations sorted by most recent first
     const registrations = await db.collection('registrations')
       .find({})
       .sort({ createdAt: -1 })
       .toArray()
 
-    console.log(`Found ${registrations.length} registrations`)
+    // Get all contact submissions sorted by most recent first
+    const contactSubmissions = await db.collection('contact-submissions')
+      .find({})
+      .sort({ createdAt: -1 })
+      .toArray()
 
+    console.log(`Retrieved ${registrations.length} registrations and ${contactSubmissions.length} contact submissions`)
+
+    // Format registrations
     const formattedRegistrations = registrations.map(reg => ({
       id: reg._id,
+      type: 'registration',
       playerName: `${reg.playerFirstName} ${reg.playerLastName}`,
       parentName: `${reg.parentFirstName} ${reg.parentLastName}`,
       email: reg.email,
@@ -82,16 +91,31 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       status: reg.status || 'confirmed'
     }))
 
+    // Format contact submissions
+    const formattedContacts = contactSubmissions.map(contact => ({
+      id: contact._id,
+      type: 'contact',
+      name: contact.name,
+      email: contact.email,
+      phone: contact.phone,
+      subject: contact.subject,
+      message: contact.message,
+      createdAt: contact.createdAt,
+      status: contact.status || 'new'
+    }))
+
     res.json({ 
       success: true, 
-      count: registrations.length,
-      registrations: formattedRegistrations 
+      registrationCount: registrations.length,
+      contactCount: contactSubmissions.length,
+      registrations: formattedRegistrations,
+      contacts: formattedContacts
     })
 
   } catch (error) {
-    console.error('Admin registrations error:', error)
+    console.error('Admin data retrieval error:', error)
     res.status(500).json({ 
-      error: 'Failed to fetch registrations',
+      error: 'Failed to retrieve admin data',
       details: error instanceof Error ? error.message : 'Unknown error'
     })
   } finally {

@@ -9,6 +9,7 @@ import Programs from './pages/Programs'
 import Gallery from './pages/Gallery'
 import RegistrationSuccess from './pages/RegistrationSuccess'
 import AdminRegistrations from './pages/AdminRegistrations'
+import Contact from './pages/Contact'
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
@@ -34,6 +35,7 @@ function App() {
               <Route path="/register" element={<Registration />} />
               <Route path="/programs" element={<Programs />} />
               <Route path="/gallery" element={<Gallery />} />
+              <Route path="/contact" element={<Contact />} />
               <Route path="/registration-success" element={<RegistrationSuccess />} />
               <Route path="/admin-registrations" element={<AdminRegistrations />} />
             </Routes>

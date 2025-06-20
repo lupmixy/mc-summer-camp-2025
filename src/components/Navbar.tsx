@@ -38,6 +38,9 @@ const Navbar = () => {
               <Link to="/gallery" className="text-white hover:text-mc-gold px-1 sm:px-3 py-2 text-xs sm:text-sm md:text-base transition-colors whitespace-nowrap">
                 Gallery
               </Link>
+              <Link to="/contact" className="text-white hover:text-mc-gold px-1 sm:px-3 py-2 text-xs sm:text-sm md:text-base transition-colors whitespace-nowrap">
+                Contact
+              </Link>
             </div>
           </div>
           
