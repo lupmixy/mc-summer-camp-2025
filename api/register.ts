@@ -125,6 +125,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
+  let client: MongoClient | null = null
+
   try {
     const registration = req.body
     console.log('Registration request received:', JSON.stringify(registration, null, 2))
@@ -160,7 +162,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Connect to MongoDB
     console.log('Attempting to connect to MongoDB...')
-    const client = await connectToMongoDB()
+    client = await connectToMongoDB()
     const db = client.db('mc-soccer-camps')
     console.log('MongoDB connection successful')
 
@@ -195,13 +197,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       registrationId: result.insertedId 
     })
 
-    // Close MongoDB connection
-    await client.close()
   } catch (error) {
     console.error('Registration error:', error)
     res.status(500).json({ 
       error: 'Registration failed',
       details: error instanceof Error ? error.message : 'Unknown error'
     })
+  } finally {
+    // Close MongoDB connection if it was established
+    if (client) {
+      try {
+        await client.close()
+        console.log('MongoDB connection closed')
+      } catch (closeError) {
+        console.error('Error closing MongoDB connection:', closeError)
+      }
+    }
   }
 }
