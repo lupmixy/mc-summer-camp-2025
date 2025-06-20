@@ -20,6 +20,8 @@ interface Registration {
   amount: number
   createdAt: string
   status: string
+  waiverUploaded?: boolean
+  waiverUploadDate?: string
 }
 
 interface ContactSubmission {
@@ -120,6 +122,7 @@ const AdminRegistrations = () => {
       'Fun Fact',
       'Payment Status',
       'Amount',
+      'Waiver Status',
       'Registration Date',
       'Status'
     ]
@@ -141,6 +144,7 @@ const AdminRegistrations = () => {
         `"${reg.funFact || ''}"`,
         `"${reg.paymentStatus}"`,
         `"${reg.amount || ''}"`,
+        `"${reg.waiverUploaded ? 'Uploaded' : 'Pending'}"`,
         `"${new Date(reg.createdAt).toLocaleDateString()}"`,
         `"${reg.status}"`
       ].join(','))
@@ -395,6 +399,7 @@ const AdminRegistrations = () => {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Details</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Emergency</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Waiver</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
@@ -435,6 +440,16 @@ const AdminRegistrations = () => {
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="font-medium text-gray-900">{formatCurrency(reg.amount)}</div>
                           <div className="text-sm text-green-600">{reg.paymentStatus}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className={`text-sm font-medium ${reg.waiverUploaded ? 'text-green-600' : 'text-red-600'}`}>
+                            {reg.waiverUploaded ? '✅ Uploaded' : '❌ Pending'}
+                          </div>
+                          {reg.waiverUploadDate && (
+                            <div className="text-xs text-gray-500">
+                              {formatDate(reg.waiverUploadDate)}
+                            </div>
+                          )}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {formatDate(reg.createdAt)}

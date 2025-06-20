@@ -524,6 +524,33 @@ const RegistrationForm = () => {
       {/* Terms and Conditions */}
       <div className="bg-white/90 backdrop-blur rounded-xl p-8 shadow-lg">
         <h2 className="text-2xl font-bold text-mc-blue mb-6">Terms and Agreements</h2>
+        
+        {/* Waiver Download Section */}
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+          <div className="flex items-start">
+            <span className="text-yellow-600 text-xl mr-3">📄</span>
+            <div>
+              <h3 className="font-semibold text-yellow-800 mb-2">Required Waiver Form</h3>
+              <p className="text-yellow-700 text-sm mb-3">
+                A signed waiver form is required before camp begins. You can download it now and either:
+              </p>
+              <ul className="text-yellow-700 text-sm mb-3 ml-4">
+                <li>• Upload the signed PDF after completing registration, or</li>
+                <li>• Bring the completed form on the first day of camp</li>
+              </ul>
+              <a
+                href="/documents/MC_Girls_Soccer_Camp_Waiver_2025.html"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center bg-mc-blue text-white px-4 py-2 rounded-md hover:bg-mc-blue-dark transition-colors text-sm font-medium"
+              >
+                <span className="mr-2">📥</span>
+                Download Waiver Form (Print as PDF)
+              </a>
+            </div>
+          </div>
+        </div>
+
         <div className="space-y-4">
           <div className="flex items-start">
             <input
@@ -549,7 +576,7 @@ const RegistrationForm = () => {
               required
             />
             <label htmlFor="hasSignedWaiver" className="text-gray-700">
-              I acknowledge that I will need to sign a waiver form on the first day of camp.
+              I acknowledge that a signed waiver form is required and will be submitted before or on the first day of camp.
             </label>
           </div>
         </div>

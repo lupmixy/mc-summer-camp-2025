@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import WaiverUpload from '../components/WaiverUpload'
 
 interface RegistrationData {
   playerFirstName: string
@@ -61,6 +62,17 @@ const RegistrationSuccess = () => {
         <p className="text-gray-700 mb-6">
           Thank you for registering for MC Girls Soccer Camp! A confirmation email has been sent to your email address.
         </p>
+        
+        {/* Waiver Upload Section */}
+        {registrationInfo && (
+          <div className="mb-6">
+            <WaiverUpload 
+              registrationId={registrationInfo.paymentIntentId || 'temp-id'}
+              playerName={`${registrationInfo.registrationData.playerFirstName} ${registrationInfo.registrationData.playerLastName}`}
+            />
+          </div>
+        )}
+        
         <p className="text-gray-700 mb-6">
           If you have any questions, please contact us at:{' '}
           <a 
