@@ -108,19 +108,16 @@ const RegistrationForm = () => {
     } catch (err) {
       console.error('Registration error:', err)
       if (axios.isAxiosError(err) && err.response) {
-        console.error('Server error details:', {
-          status: err.response.status,
-          statusText: err.response.statusText,
-          data: err.response.data
-        })
-        alert(`Registration failed: ${err.response.data.error || 'Please try again.'}`)
+        console.error('Server error details:', err.response.data)
+        const errorMessage = err.response.data?.details || err.response.data?.error || `Server error (${err.response.status})`
+        alert(`Registration failed: ${errorMessage}`)
       } else if (err instanceof Error) {
         console.error('Error message:', err.message)
         console.error('Error stack:', err.stack)
         alert(`Registration failed: ${err.message}`)
       } else {
         console.error('Unknown error:', err)
-        alert('Registration failed. Please try again.')
+        alert('Registration failed: Unknown error occurred')
       }
     } finally {
       setIsProcessing(false)
