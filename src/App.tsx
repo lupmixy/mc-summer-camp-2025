@@ -37,7 +37,7 @@ function App() {
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/registration-success" element={<RegistrationSuccess />} />
-              <Route path="/admin-registrations" element={<AdminRegistrations />} />
+              <Route path="/admin" element={<AdminRegistrations />} />
             </Routes>
           </Elements>
         </main>

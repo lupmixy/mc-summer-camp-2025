@@ -42,6 +42,9 @@ const AdminRegistrations = () => {
   const [adminKey, setAdminKey] = useState('')
   const [authenticated, setAuthenticated] = useState(false)
   const [activeTab, setActiveTab] = useState<'registrations' | 'contacts'>('registrations')
+  const [editingRegistration, setEditingRegistration] = useState<Registration | null>(null)
+  const [showEditModal, setShowEditModal] = useState(false)
+  const [editFormData, setEditFormData] = useState<Partial<Registration>>({})
 
   const fetchRegistrations = async () => {
     if (!adminKey) {
@@ -53,7 +56,7 @@ const AdminRegistrations = () => {
     setError('')
 
     try {
-      const response = await axios.get('/api/admin-registrations', {
+      const response = await axios.get('/api/admin', {
         headers: {
           'X-Admin-Key': adminKey
         }
@@ -195,6 +198,78 @@ const AdminRegistrations = () => {
     return `$${(amount / 100).toFixed(2)}`
   }
 
+  const handleEditRegistration = (registration: Registration) => {
+    setEditingRegistration(registration)
+    setEditFormData({
+      playerName: registration.playerName,
+      parentName: registration.parentName,
+      email: registration.email,
+      phone: registration.phone,
+      program: registration.program,
+      position: registration.position,
+      shirtSize: registration.shirtSize,
+      emergencyContact: registration.emergencyContact,
+      emergencyPhone: registration.emergencyPhone,
+      medicalConditions: registration.medicalConditions,
+      dateOfBirth: registration.dateOfBirth,
+      funFact: registration.funFact,
+      paymentStatus: registration.paymentStatus,
+      amount: registration.amount,
+      status: registration.status
+    })
+    setShowEditModal(true)
+  }
+
+  const handleUpdateRegistration = async () => {
+    if (!editingRegistration) return
+
+    try {
+      const response = await axios.put(`/api/admin-registration?id=${editingRegistration.id}`, editFormData, {
+        headers: {
+          'X-Admin-Key': adminKey
+        }
+      })
+
+      if (response.data.success) {
+        // Update the local state
+        setRegistrations(prev => prev.map(reg => 
+          reg.id === editingRegistration.id 
+            ? { ...reg, ...editFormData }
+            : reg
+        ))
+        setShowEditModal(false)
+        setEditingRegistration(null)
+        setEditFormData({})
+        setError('')
+      }
+    } catch (err) {
+      console.error('Error updating registration:', err)
+      setError('Failed to update registration')
+    }
+  }
+
+  const handleDeleteRegistration = async (registrationId: string) => {
+    if (!confirm('Are you sure you want to delete this registration? This action cannot be undone.')) {
+      return
+    }
+
+    try {
+      const response = await axios.delete(`/api/admin-registration?id=${registrationId}`, {
+        headers: {
+          'X-Admin-Key': adminKey
+        }
+      })
+
+      if (response.data.success) {
+        // Remove from local state
+        setRegistrations(prev => prev.filter(reg => reg.id !== registrationId))
+      }
+    } catch (err) {
+      console.error('Error deleting registration:', err)
+      setError('Failed to delete registration')
+    }
+  }
+
   if (!authenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-mc-blue to-mc-blue-dark flex items-center justify-center">
@@ -321,6 +396,7 @@ const AdminRegistrations = () => {
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Emergency</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -362,6 +438,20 @@ const AdminRegistrations = () => {
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                           {formatDate(reg.createdAt)}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                          <button
+                            onClick={() => handleEditRegistration(reg)}
+                            className="text-mc-gold hover:text-mc-gold-light transition-colors"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteRegistration(reg.id)}
+                            className="ml-2 text-red-600 hover:text-red-500 transition-colors"
+                          >
+                            Delete
+                          </button>
                         </td>
                       </tr>
                     ))}
@@ -434,6 +524,219 @@ const AdminRegistrations = () => {
           </div>
         )}
       </div>
+
+      {/* Edit Registration Modal */}
+      {showEditModal && editingRegistration && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="bg-black opacity-50 absolute inset-0"></div>
+          <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 z-10">
+            <h2 className="text-xl font-bold mb-4">Edit Registration</h2>
+
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                {error}
+              </div>
+            )}
+
+            <div className="space-y-4 max-h-96 overflow-y-auto">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Player Name</label>
+                  <input
+                    type="text"
+                    value={editFormData.playerName || ''}
+                    onChange={(e) => setEditFormData({ ...editFormData, playerName: e.target.value })}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Parent Name</label>
+                  <input
+                    type="text"
+                    value={editFormData.parentName || ''}
+                    onChange={(e) => setEditFormData({ ...editFormData, parentName: e.target.value })}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                  />
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Email</label>
+                  <input
+                    type="email"
+                    value={editFormData.email || ''}
+                    onChange={(e) => setEditFormData({ ...editFormData, email: e.target.value })}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Phone</label>
+                  <input
+                    type="tel"
+                    value={editFormData.phone || ''}
+                    onChange={(e) => setEditFormData({ ...editFormData, phone: e.target.value })}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Program</label>
+                  <select
+                    value={editFormData.program || ''}
+                    onChange={(e) => setEditFormData({ ...editFormData, program: e.target.value })}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                  >
+                    <option value="youth">Youth Program</option>
+                    <option value="high-school">High School Program</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Position</label>
+                  <input
+                    type="text"
+                    value={editFormData.position || ''}
+                    onChange={(e) => setEditFormData({ ...editFormData, position: e.target.value })}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                    placeholder="e.g., Forward, Midfielder"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Shirt Size</label>
+                  <select
+                    value={editFormData.shirtSize || ''}
+                    onChange={(e) => setEditFormData({ ...editFormData, shirtSize: e.target.value })}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                  >
+                    <option value="YS">Youth Small</option>
+                    <option value="YM">Youth Medium</option>
+                    <option value="YL">Youth Large</option>
+                    <option value="AS">Adult Small</option>
+                    <option value="AM">Adult Medium</option>
+                    <option value="AL">Adult Large</option>
+                    <option value="AXL">Adult XL</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Date of Birth</label>
+                  <input
+                    type="date"
+                    value={editFormData.dateOfBirth || ''}
+                    onChange={(e) => setEditFormData({ ...editFormData, dateOfBirth: e.target.value })}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Emergency Contact</label>
+                  <input
+                    type="text"
+                    value={editFormData.emergencyContact || ''}
+                    onChange={(e) => setEditFormData({ ...editFormData, emergencyContact: e.target.value })}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Emergency Phone</label>
+                  <input
+                    type="tel"
+                    value={editFormData.emergencyPhone || ''}
+                    onChange={(e) => setEditFormData({ ...editFormData, emergencyPhone: e.target.value })}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Medical Conditions</label>
+                <textarea
+                  value={editFormData.medicalConditions || ''}
+                  onChange={(e) => setEditFormData({ ...editFormData, medicalConditions: e.target.value })}
+                  rows={3}
+                  className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                  placeholder="Any medical conditions, allergies, or special needs"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Fun Fact</label>
+                <textarea
+                  value={editFormData.funFact || ''}
+                  onChange={(e) => setEditFormData({ ...editFormData, funFact: e.target.value })}
+                  rows={2}
+                  className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                  placeholder="Something fun about the player"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Payment Status</label>
+                  <select
+                    value={editFormData.paymentStatus || ''}
+                    onChange={(e) => setEditFormData({ ...editFormData, paymentStatus: e.target.value })}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                  >
+                    <option value="paid">Paid</option>
+                    <option value="pending">Pending</option>
+                    <option value="refunded">Refunded</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700">Registration Status</label>
+                  <select
+                    value={editFormData.status || ''}
+                    onChange={(e) => setEditFormData({ ...editFormData, status: e.target.value })}
+                    className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                  >
+                    <option value="confirmed">Confirmed</option>
+                    <option value="pending">Pending</option>
+                    <option value="cancelled">Cancelled</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700">Amount (cents)</label>
+                <input
+                  type="number"
+                  value={editFormData.amount || ''}
+                  onChange={(e) => setEditFormData({ ...editFormData, amount: Number(e.target.value) })}
+                  className="mt-1 block w-full px-3 py-2 border rounded-md focus:ring-2 focus:ring-mc-gold focus:border-transparent text-sm"
+                  placeholder="Amount in cents (e.g., 15000 for $150.00)"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-end mt-4">
+              <button
+                onClick={() => {
+                  setShowEditModal(false)
+                  setEditingRegistration(null)
+                  setEditFormData({})
+                  setError('')
+                }}
+                className="bg-gray-200 text-gray-700 px-4 py-2 rounded-md mr-2"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleUpdateRegistration}
+                className="bg-mc-gold text-mc-blue font-bold px-4 py-2 rounded-md"
+              >
+                Update Registration
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
