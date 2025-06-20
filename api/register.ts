@@ -62,32 +62,146 @@ async function sendConfirmationEmail(params: {
 }) {
   const { to, playerName, parentName, program } = params
   const campInfo = CAMP_DETAILS[program]
+  const programName = program === 'youth' ? 'Youth Program (Ages 8-14)' : 'High School Program (Grades 8-12)'
 
   const html = `
-    <h1>MC Girls Soccer Camp Registration Confirmation</h1>
-    <p>Dear ${parentName},</p>
-    <p>Thank you for registering ${playerName} for the ${program} program at MC Girls Soccer Camp!</p>
-    
-    <h2>Camp Details:</h2>
-    <ul>
-      <li><strong>Dates:</strong> ${campInfo.dates}</li>
-      <li><strong>Time:</strong> ${campInfo.time}</li>
-      <li><strong>Location:</strong> ${CAMP_DETAILS.location}</li>
-    </ul>
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>MC Girls Soccer Camp Registration Confirmation</title>
+      <style>
+        body { 
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+          line-height: 1.6; 
+          margin: 0; 
+          padding: 0; 
+          background-color: #f5f5f5;
+        }
+        .container { 
+          max-width: 600px; 
+          margin: 20px auto; 
+          background: white; 
+          border-radius: 12px; 
+          overflow: hidden;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header { 
+          background: linear-gradient(135deg, #003087, #002066); 
+          color: white; 
+          padding: 30px 20px; 
+          text-align: center; 
+        }
+        .header h1 { 
+          margin: 0; 
+          font-size: 28px; 
+          font-weight: bold;
+        }
+        .header .subtitle { 
+          color: #C5B358; 
+          font-size: 16px; 
+          margin-top: 5px;
+        }
+        .content { 
+          padding: 30px; 
+        }
+        .welcome { 
+          color: #003087; 
+          font-size: 18px; 
+          margin-bottom: 20px;
+        }
+        .details-box { 
+          background: #f8f9fa; 
+          border-left: 4px solid #C5B358; 
+          padding: 20px; 
+          margin: 20px 0; 
+          border-radius: 0 8px 8px 0;
+        }
+        .details-box h3 { 
+          color: #003087; 
+          margin-top: 0; 
+          font-size: 18px;
+        }
+        .details-box ul { 
+          margin: 10px 0; 
+          padding-left: 20px;
+        }
+        .details-box li { 
+          margin: 8px 0; 
+          color: #333;
+        }
+        .highlight { 
+          color: #C5B358; 
+          font-weight: bold;
+        }
+        .footer { 
+          background: #003087; 
+          color: white; 
+          padding: 20px; 
+          text-align: center; 
+          font-size: 14px;
+        }
+        .footer a { 
+          color: #C5B358; 
+          text-decoration: none;
+        }
+        .logo-placeholder {
+          width: 80px;
+          height: 80px;
+          margin: 0 auto 15px;
+          display: block;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <img src="https://mc-girls-soccer-camps-08-2025.vercel.app/branding/mclogo.png" alt="MC Logo" class="logo-placeholder" />
+          <h1>Registration Confirmed!</h1>
+          <div class="subtitle">MC Girls Soccer Camp</div>
+        </div>
+        
+        <div class="content">
+          <div class="welcome">
+            Dear <span class="highlight">${parentName}</span>,
+          </div>
+          
+          <p>Thank you for registering <strong>${playerName}</strong> for the <span class="highlight">${programName}</span> at MC Girls Soccer Camp!</p>
+          
+          <div class="details-box">
+            <h3>📅 Camp Details</h3>
+            <ul>
+              <li><strong>Dates:</strong> ${campInfo.dates}</li>
+              <li><strong>Time:</strong> ${campInfo.time} daily</li>
+              <li><strong>Location:</strong> ${CAMP_DETAILS.location}</li>
+            </ul>
+          </div>
 
-    <h2>What to Bring:</h2>
-    <ul>
-      <li>Soccer cleats and shin guards</li>
-      <li>Water bottle</li>
-      <li>Sunscreen</li>
-      <li>Light snack</li>
-    </ul>
+          <div class="details-box">
+            <h3>⚽ What to Bring</h3>
+            <ul>
+              <li>Soccer cleats and shin guards</li>
+              <li>Water bottle (stay hydrated!)</li>
+              <li>Sunscreen</li>
+              <li>Light snack</li>
+              <li>Positive attitude and ready to learn!</li>
+            </ul>
+          </div>
 
-    <p>We're excited to have ${playerName} join us this summer! You will receive additional information about training groups and detailed schedule closer to the camp date.</p>
-    
-    <p>If you have any questions, please contact us at mcgirlssoccer12@gmail.com</p>
-    
-    <p>Best regards,<br>MC Girls Soccer Camp Team</p>
+          <p>We're excited to have <strong>${playerName}</strong> join us this summer! You will receive additional information about training groups and detailed schedule closer to the camp date.</p>
+          
+          <p>If you have any questions, please don't hesitate to contact us.</p>
+        </div>
+        
+        <div class="footer">
+          <p><strong>MC Girls Soccer Camp Team</strong></p>
+          <p>📧 <a href="mailto:mcgirlssoccer12@gmail.com">mcgirlssoccer12@gmail.com</a></p>
+          <p>🏟️ Brother Gilbert Stadium, Malden Catholic High School</p>
+        </div>
+      </div>
+    </body>
+    </html>
   `
 
   try {
