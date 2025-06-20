@@ -194,13 +194,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       message: 'Registration successful',
       registrationId: result.insertedId 
     })
+
+    // Close MongoDB connection
+    await client.close()
   } catch (error) {
     console.error('Registration error:', error)
     res.status(500).json({ 
       error: 'Registration failed',
       details: error instanceof Error ? error.message : 'Unknown error'
     })
-  } finally {
-    await client.close()
   }
 }
