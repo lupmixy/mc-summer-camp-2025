@@ -7,14 +7,12 @@ const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/mc-soccer-camp
 
 async function connectToMongoDB() {
   const client = new MongoClient(uri, {
-    tls: true,
-    tlsAllowInvalidCertificates: false,
-    tlsAllowInvalidHostnames: false,
+    serverSelectionTimeoutMS: 5000,
+    connectTimeoutMS: 10000,
+    socketTimeoutMS: 0,
+    maxPoolSize: 1,
     retryWrites: true,
-    w: 'majority',
-    serverSelectionTimeoutMS: 30000,
-    connectTimeoutMS: 30000,
-    socketTimeoutMS: 30000,
+    w: 'majority'
   })
   
   await client.connect()
