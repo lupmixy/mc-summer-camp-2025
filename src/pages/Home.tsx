@@ -82,7 +82,7 @@ const Home = () => {
               </div>
             </div>
             <ul className="space-y-2 mb-6 text-gray-700">
-              <li>• July 28-31, 2025</li>
+              <li>• August 4-7, 2025</li>
               <li>• 8:00 AM - 12:00 PM</li>
               <li>• Brother Gilbert Stadium (Donovan Field)</li>
               <li>• All skill levels welcome</li>
@@ -113,7 +113,7 @@ const Home = () => {
               </div>
             </div>
             <ul className="space-y-2 mb-6 text-gray-700">
-              <li>• July 28-31, 2025</li>
+              <li>• August 4-7, 2025</li>
               <li>• 8:00 AM - 12:00 PM</li>
               <li>• Brother Gilbert Stadium (Donovan Field)</li>
               <li>• Advanced skill development</li>

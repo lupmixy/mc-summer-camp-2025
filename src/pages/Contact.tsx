@@ -256,9 +256,8 @@ const Contact = () => {
           <div className="mt-8 p-4 bg-mc-gold/10 rounded-lg border border-mc-gold/20">
             <h3 className="font-semibold text-mc-blue mb-2">Camp Dates 2025</h3>
             <div className="text-sm text-gray-700 space-y-1">
-              <p><strong>Youth Program:</strong> July 7-11, 2025</p>
-              <p><strong>High School Program:</strong> July 14-18, 2025</p>
-              <p><strong>Time:</strong> 9:00 AM - 3:00 PM daily</p>
+              <p><strong>All Programs:</strong> August 4-7, 2025</p>
+              <p><strong>Time:</strong> 8:00 AM - 12:00 PM daily</p>
             </div>
           </div>
         </div>

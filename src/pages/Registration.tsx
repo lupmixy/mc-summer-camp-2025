@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useStripe, useElements, CardElement, Elements } from '@stripe/react-stripe-js'
+import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement, Elements } from '@stripe/react-stripe-js'
 import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios'
 import DatePicker from 'react-datepicker'
@@ -71,10 +71,10 @@ const RegistrationForm = () => {
 
       const { clientSecret } = response.data;
 
-      // Confirm card payment with the card element
+      // Confirm card payment with the card elements
       const result = await stripe.confirmCardPayment(clientSecret, {
         payment_method: {
-          card: elements.getElement(CardElement)!,
+          card: elements.getElement(CardNumberElement)!,
           billing_details: {
             name: formData.parentFirstName + ' ' + formData.parentLastName,
             email: formData.email
@@ -423,37 +423,99 @@ const RegistrationForm = () => {
             </p>
           </div>
           <div className="mt-4 p-6 border-2 border-mc-gold rounded-lg bg-white shadow-lg">
-            <label htmlFor="card-element" className="block text-gray-700 text-sm font-bold mb-3 flex items-center">
+            <label className="block text-gray-700 text-sm font-bold mb-3 flex items-center">
               <span className="text-mc-gold mr-2">💳</span>
               Card Details
             </label>
-            <div className="p-4 border-2 border-mc-gold/30 rounded-md bg-gray-50 focus-within:border-mc-gold focus-within:bg-white transition-all">
-              <CardElement
-                id="card-element"
-                options={{
-                  style: {
-                    base: {
-                      fontSize: '18px',
-                      color: '#1e3a8a',
-                      fontFamily: '"Inter", "Helvetica Neue", Helvetica, sans-serif',
-                      fontWeight: '500',
-                      '::placeholder': {
-                        color: '#6b7280',
+            
+            {/* Card Number - Full Width */}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">Card Number</label>
+              <div className="p-4 border-2 border-mc-gold/30 rounded-md bg-gray-50 focus-within:border-mc-gold focus-within:bg-white transition-all">
+                <CardNumberElement
+                  options={{
+                    style: {
+                      base: {
+                        fontSize: '18px',
+                        color: '#1e3a8a',
+                        fontFamily: '"Inter", "Helvetica Neue", Helvetica, sans-serif',
+                        fontWeight: '500',
+                        '::placeholder': {
+                          color: '#6b7280',
+                        },
+                      },
+                      invalid: {
+                        color: '#dc2626',
+                      },
+                      complete: {
+                        color: '#059669',
                       },
                     },
-                    invalid: {
-                      color: '#dc2626',
-                    },
-                    complete: {
-                      color: '#059669',
-                    },
-                  },
-                }}
-              />
+                  }}
+                />
+              </div>
             </div>
-            <p className="text-sm text-gray-600 mt-2 flex items-center">
+
+            {/* Expiry and CVC - Side by Side on Desktop, Stacked on Mobile */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Expiry Date</label>
+                <div className="p-4 border-2 border-mc-gold/30 rounded-md bg-gray-50 focus-within:border-mc-gold focus-within:bg-white transition-all">
+                  <CardExpiryElement
+                    options={{
+                      style: {
+                        base: {
+                          fontSize: '18px',
+                          color: '#1e3a8a',
+                          fontFamily: '"Inter", "Helvetica Neue", Helvetica, sans-serif',
+                          fontWeight: '500',
+                          '::placeholder': {
+                            color: '#6b7280',
+                          },
+                        },
+                        invalid: {
+                          color: '#dc2626',
+                        },
+                        complete: {
+                          color: '#059669',
+                        },
+                      },
+                    }}
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">CVC</label>
+                <div className="p-4 border-2 border-mc-gold/30 rounded-md bg-gray-50 focus-within:border-mc-gold focus-within:bg-white transition-all">
+                  <CardCvcElement
+                    options={{
+                      style: {
+                        base: {
+                          fontSize: '18px',
+                          color: '#1e3a8a',
+                          fontFamily: '"Inter", "Helvetica Neue", Helvetica, sans-serif',
+                          fontWeight: '500',
+                          '::placeholder': {
+                            color: '#6b7280',
+                          },
+                        },
+                        invalid: {
+                          color: '#dc2626',
+                        },
+                        complete: {
+                          color: '#059669',
+                        },
+                      },
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+            
+            <p className="text-sm text-gray-600 mt-4 flex items-center">
               <span className="text-green-500 mr-1">🔒</span>
-              Your payment information is encrypted and secure
+              Your payment information is encrypted and secure. Zip code is not required.
             </p>
           </div>
         </div>

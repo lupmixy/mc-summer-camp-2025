@@ -44,11 +44,11 @@ type CampDetails = {
 
 const CAMP_DETAILS: CampDetails = {
   youth: {
-    dates: 'July 28-31, 2025',
+    dates: 'August 4-7, 2025',
     time: '8:00 AM - 12:00 PM'
   },
   highschool: {
-    dates: 'July 28-31, 2025',
+    dates: 'August 4-7, 2025',
     time: '8:00 AM - 12:00 PM'
   },
   location: 'Brother Gilbert Stadium (Donovan Field), Malden Catholic High School, 99 Crystal Street, Malden, MA 02148'

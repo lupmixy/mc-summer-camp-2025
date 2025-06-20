@@ -55,7 +55,7 @@ const Programs = () => {
               <div>
                 <h3 className="font-bold text-mc-blue mb-2">Schedule</h3>
                 <ul className="text-gray-700 space-y-1">
-                  <li>• July 28-31, 2025</li>
+                  <li>• August 4-7, 2025</li>
                   <li>• 8:00 AM - 12:00 PM daily</li>
                   <li>• Brother Gilbert Stadium (Donovan Field)</li>
                 </ul>
@@ -102,7 +102,7 @@ const Programs = () => {
               <div>
                 <h3 className="font-bold text-mc-blue mb-2">Schedule</h3>
                 <ul className="text-gray-700 space-y-1">
-                  <li>• July 22-26, 2025</li>
+                  <li>• August 4-7, 2025</li>
                   <li>• 9:00 AM - 2:00 PM daily</li>
                   <li>• Brother Gilbert Stadium (Donovan Field)</li>
                 </ul>
