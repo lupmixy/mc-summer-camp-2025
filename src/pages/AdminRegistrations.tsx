@@ -274,6 +274,11 @@ const AdminRegistrations = () => {
     }
   }
 
+  const handleViewWaiver = (registrationId: string) => {
+    const url = `/api/view-waiver?registrationId=${registrationId}&adminKey=${encodeURIComponent(adminKey)}`
+    window.open(url, '_blank')
+  }
+
   if (!authenticated) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-mc-blue to-mc-blue-dark flex items-center justify-center">
@@ -448,6 +453,16 @@ const AdminRegistrations = () => {
                           {reg.waiverUploadDate && (
                             <div className="text-xs text-gray-500">
                               {formatDate(reg.waiverUploadDate)}
+                            </div>
+                          )}
+                          {reg.waiverUploaded && (
+                            <div className="mt-1">
+                              <button
+                                onClick={() => handleViewWaiver(reg.id)}
+                                className="text-xs bg-mc-blue text-white px-2 py-1 rounded hover:bg-mc-blue-dark transition-colors"
+                              >
+                                📄 View Waiver
+                              </button>
                             </div>
                           )}
                         </td>
