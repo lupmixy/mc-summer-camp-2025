@@ -516,7 +516,7 @@ const RegistrationForm = () => {
             
             <p className="text-sm text-gray-600 mt-4 flex items-center">
               <span className="text-green-500 mr-1">🔒</span>
-              Your payment information is encrypted and secure. Zip code is not required.
+              Your payment information is encrypted and secure.
             </p>
           </div>
         </div>
