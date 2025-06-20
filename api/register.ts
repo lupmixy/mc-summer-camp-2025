@@ -149,15 +149,22 @@ async function sendConfirmationEmail(params: {
         .logo-placeholder {
           width: 80px;
           height: 80px;
+          background: #C5B358;
+          border-radius: 50%;
           margin: 0 auto 15px;
-          display: block;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 24px;
+          color: #003087;
         }
       </style>
     </head>
     <body>
       <div class="container">
         <div class="header">
-          <img src="https://mc-girls-soccer-camps-08-2025.vercel.app/branding/mclogo.png" alt="MC Logo" class="logo-placeholder" />
+          <div class="logo-placeholder">MC</div>
           <h1>Registration Confirmed!</h1>
           <div class="subtitle">MC Girls Soccer Camp</div>
         </div>

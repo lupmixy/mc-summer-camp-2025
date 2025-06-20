@@ -68,6 +68,21 @@ const AdminRegistrations = () => {
     })
   }
 
+  const formatDateOfBirth = (dateStr: string) => {
+    if (!dateStr) return 'N/A'
+    // If it's already in YYYY-MM-DD format, return as is
+    if (dateStr.match(/^\d{4}-\d{2}-\d{2}$/)) {
+      return dateStr
+    }
+    // If it's a full datetime string, extract just the date part
+    try {
+      const date = new Date(dateStr)
+      return date.toISOString().split('T')[0]
+    } catch {
+      return dateStr
+    }
+  }
+
   const formatCurrency = (amount: number) => {
     return `$${(amount / 100).toFixed(2)}`
   }
@@ -211,7 +226,7 @@ const AdminRegistrations = () => {
                     <tr key={reg.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="font-medium text-gray-900">{reg.playerName}</div>
-                        <div className="text-sm text-gray-500">DOB: {reg.dateOfBirth}</div>
+                        <div className="text-sm text-gray-500">DOB: {formatDateOfBirth(reg.dateOfBirth)}</div>
                         <div className="text-sm text-gray-500">Size: {reg.shirtSize}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
