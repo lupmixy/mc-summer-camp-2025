@@ -4,7 +4,22 @@ import nodemailer from 'nodemailer'
 
 // MongoDB connection
 const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/mc-soccer-camps'
-const client = new MongoClient(uri)
+
+async function connectToMongoDB() {
+  const client = new MongoClient(uri, {
+    tls: true,
+    tlsAllowInvalidCertificates: false,
+    tlsAllowInvalidHostnames: false,
+    retryWrites: true,
+    w: 'majority',
+    serverSelectionTimeoutMS: 30000,
+    connectTimeoutMS: 30000,
+    socketTimeoutMS: 30000,
+  })
+  
+  await client.connect()
+  return client
+}
 
 // Email configuration
 const transporter = nodemailer.createTransport({
@@ -145,7 +160,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Connect to MongoDB
     console.log('Attempting to connect to MongoDB...')
-    await client.connect()
+    const client = await connectToMongoDB()
     const db = client.db('mc-soccer-camps')
     console.log('MongoDB connection successful')
 

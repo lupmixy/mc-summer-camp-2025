@@ -418,12 +418,13 @@ const RegistrationForm = () => {
             </p>
           </div>
           <div className="mt-4 p-6 border-2 border-mc-gold rounded-lg bg-white shadow-lg">
-            <label className="block text-gray-700 text-sm font-bold mb-3 flex items-center">
+            <label htmlFor="card-element" className="block text-gray-700 text-sm font-bold mb-3 flex items-center">
               <span className="text-mc-gold mr-2">💳</span>
               Card Details
             </label>
             <div className="p-4 border-2 border-mc-gold/30 rounded-md bg-gray-50 focus-within:border-mc-gold focus-within:bg-white transition-all">
               <CardElement
+                id="card-element"
                 options={{
                   style: {
                     base: {
