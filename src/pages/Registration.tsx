@@ -4,7 +4,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios'
 import DatePicker from 'react-datepicker'
 import InputMask from 'react-input-mask'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import "react-datepicker/dist/react-datepicker.css"
 
 type Program = 'youth' | 'highschool'
@@ -29,6 +29,7 @@ const RegistrationForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const location = useLocation()
+  const navigate = useNavigate()
 
   const [isProcessing, setIsProcessing] = useState(false)
   const [formData, setFormData] = useState({
@@ -101,7 +102,12 @@ const RegistrationForm = () => {
       console.log('Registration response:', registrationResponse.data)
 
       if (registrationResponse.data.success) {
-        window.location.href = '/registration-success'
+        navigate('/registration-success', { 
+          state: { 
+            registrationData: registrationData,
+            paymentIntentId: result.paymentIntent?.id 
+          }
+        })
       } else {
         throw new Error('Registration failed: ' + JSON.stringify(registrationResponse.data))
       }
