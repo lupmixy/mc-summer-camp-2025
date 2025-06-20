@@ -104,7 +104,8 @@ const RegistrationForm = () => {
         // Store registration data in sessionStorage for the success page
         sessionStorage.setItem('registrationData', JSON.stringify({
           registrationData: registrationData,
-          paymentIntentId: result.paymentIntent?.id
+          paymentIntentId: result.paymentIntent?.id,
+          registrationId: registrationResponse.data.registrationId
         }))
         window.location.href = '/registration-success'
       } else {

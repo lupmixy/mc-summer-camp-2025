@@ -14,6 +14,7 @@ interface RegistrationData {
 interface StoredData {
   registrationData: RegistrationData
   paymentIntentId?: string
+  registrationId?: string
 }
 
 const RegistrationSuccess = () => {
@@ -64,10 +65,10 @@ const RegistrationSuccess = () => {
         </p>
         
         {/* Waiver Upload Section */}
-        {registrationInfo && (
+        {registrationInfo && registrationInfo.registrationId && (
           <div className="mb-6">
             <WaiverUpload 
-              registrationId={registrationInfo.paymentIntentId || 'temp-id'}
+              registrationId={registrationInfo.registrationId}
               playerName={`${registrationInfo.registrationData.playerFirstName} ${registrationInfo.registrationData.playerLastName}`}
             />
           </div>
