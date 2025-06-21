@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "generate-waiver-pdf": "node scripts/generate-pdf-waiver.js",
-    "test-pdf-attachment": "node scripts/test-pdf-attachment.js"
+    "test-pdf-attachment": "node scripts/test-pdf-attachment.js",
+    "test-gallery": "node scripts/test-gallery-api.js"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
