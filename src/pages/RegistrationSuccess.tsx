@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import WaiverUpload from '../components/WaiverUpload'
 
 interface RegistrationData {
   playerFirstName: string
@@ -61,7 +62,7 @@ const RegistrationSuccess = () => {
         )}
         
         <p className="text-gray-700 mb-6">
-          Thank you for registering for MC Girls Soccer Camp! A confirmation email has been sent to your email address with important camp information and a link to submit your required waiver form.
+          Thank you for registering for MC Girls Soccer Camp! A confirmation email has been sent to your email address with important camp information. You can complete your waiver submission below or use the link in your email later.
         </p>
         
         {/* Waiver Information Section */}
@@ -69,9 +70,9 @@ const RegistrationSuccess = () => {
           <div className="flex items-start">
             <span className="text-yellow-600 text-2xl mr-3">📄</span>
             <div>
-              <h3 className="text-lg font-semibold text-yellow-800 mb-2">Next Step: Waiver Form</h3>
+              <h3 className="text-lg font-semibold text-yellow-800 mb-2">Required Waiver Form</h3>
               <p className="text-yellow-700 mb-3">
-                A signed waiver form is required before camp begins. We've sent you an email with a convenient link to submit it online, or you can download it now:
+                A signed waiver form is required before camp begins. Download it below, and if you're ready, you can upload the signed version right away!
               </p>
               
               <div className="mb-4">
@@ -99,16 +100,45 @@ const RegistrationSuccess = () => {
               
               <div className="bg-blue-50 border border-blue-200 rounded p-3">
                 <p className="text-blue-700 text-sm mb-2">
-                  <strong>Two ways to submit your waiver:</strong>
+                  <strong>Three ways to submit your waiver:</strong>
                 </p>
                 <ul className="text-blue-700 text-sm ml-4 space-y-1">
-                  <li>• <strong>Online:</strong> Use the link in your confirmation email to upload the signed PDF</li>
+                  <li>• <strong>Upload Now:</strong> Print, sign, scan and upload below</li>
+                  <li>• <strong>Upload Later:</strong> Use the link in your confirmation email</li>
                   <li>• <strong>In Person:</strong> Bring the completed form on the first day of camp</li>
                 </ul>
               </div>
             </div>
           </div>
         </div>
+
+        {/* Waiver Upload Section */}
+        {registrationInfo?.registrationId && (
+          <div className="bg-green-50 border border-green-200 rounded-lg p-6 mb-6">
+            <div className="flex items-start">
+              <span className="text-green-600 text-2xl mr-3">📤</span>
+              <div className="flex-1">
+                <h3 className="text-lg font-semibold text-green-800 mb-2">Upload Signed Waiver (Optional)</h3>
+                <p className="text-green-700 mb-4 text-sm">
+                  Got your waiver printed, signed, and scanned already? Upload it now to complete everything at once!
+                </p>
+                
+                <WaiverUpload
+                  registrationId={registrationInfo.registrationId}
+                  playerName={`${registrationInfo.registrationData.playerFirstName} ${registrationInfo.registrationData.playerLastName}`}
+                  onUploadSuccess={() => {
+                    console.log('Waiver uploaded successfully from registration success page')
+                  }}
+                />
+                
+                <div className="mt-3 p-3 bg-green-100 rounded text-sm text-green-700">
+                  <p className="font-medium mb-1">💡 Pro Tip:</p>
+                  <p>Many smartphone cameras can scan documents directly to PDF. Check your camera app or download a scanning app like Adobe Scan (free).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         
         <p className="text-gray-700 mb-6">
           If you have any questions, please contact us at:{' '}
