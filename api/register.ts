@@ -201,7 +201,7 @@ async function sendConfirmationEmail(params: {
             <h3>📄 Important: Waiver Form Required</h3>
             <p style="margin-bottom: 15px;">A signed waiver form is required before camp begins. You can submit it at your convenience using the link below:</p>
             <div style="text-align: center; margin: 20px 0;">
-              <a href="${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'}/waiver-submission?registrationId=${registrationId}&playerName=${encodeURIComponent(playerName)}" 
+              <a href="${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.NODE_ENV === 'production' ? 'https://mc-soccer.com' : 'http://localhost:3000'}/waiver-submission?registrationId=${registrationId}&playerName=${encodeURIComponent(playerName)}" 
                  style="display: inline-block; background: linear-gradient(135deg, #C5B358, #B8A147); color: #003087; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px;">
                 📄 Submit Waiver Form Online
               </a>

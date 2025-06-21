@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import WaiverUpload from '../components/WaiverUpload'
 
 interface RegistrationData {
   playerFirstName: string
@@ -62,45 +61,29 @@ const RegistrationSuccess = () => {
         )}
         
         <p className="text-gray-700 mb-6">
-          Thank you for registering for MC Girls Soccer Camp! A confirmation email has been sent to your email address.
+          Thank you for registering for MC Girls Soccer Camp! A confirmation email has been sent to your email address with important camp information and a link to submit your required waiver form.
         </p>
         
-        {/* Waiver Upload Section */}
-        {registrationInfo && registrationInfo.registrationId && (
-          <div className="mb-6">
-            <WaiverUpload 
-              registrationId={registrationInfo.registrationId}
-              playerName={`${registrationInfo.registrationData.playerFirstName} ${registrationInfo.registrationData.playerLastName}`}
-            />
-          </div>
-        )}
-        
-        {/* Show message when registrationId is missing */}
-        {registrationInfo && !registrationInfo.registrationId && (
-          <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-lg p-6">
-            <div className="text-yellow-800">
-              <h3 className="text-lg font-semibold mb-2">📄 Waiver Required</h3>
-              <p className="mb-4">
-                Please download, print, sign, and email the completed waiver form to:{' '}
-                <a 
-                  href="mailto:mcgirlssoccer12@gmail.com" 
-                  className="text-mc-blue hover:text-mc-blue-dark underline font-medium"
-                >
-                  mcgirlssoccer12@gmail.com
-                </a>
+        {/* Waiver Information Section */}
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-6">
+          <div className="flex items-start">
+            <span className="text-yellow-600 text-2xl mr-3">📄</span>
+            <div>
+              <h3 className="text-lg font-semibold text-yellow-800 mb-2">Next Step: Waiver Form</h3>
+              <p className="text-yellow-700 mb-3">
+                A signed waiver form is required before camp begins. We've sent you an email with a convenient link to:
               </p>
-              <a
-                href="/documents/MC_Girls_Soccer_Camp_Waiver_2025.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center bg-mc-blue text-white px-4 py-2 rounded-md hover:bg-mc-blue-dark transition-colors text-sm font-medium"
-              >
-                <span className="mr-2">📥</span>
-                Download Waiver Form
-              </a>
+              <ul className="text-yellow-700 text-sm mb-3 ml-4">
+                <li>• Download the waiver form</li>
+                <li>• Upload your completed and signed waiver</li>
+                <li>• Automatically link it to your registration</li>
+              </ul>
+              <p className="text-yellow-700 text-sm">
+                <strong>Check your email for the waiver submission link!</strong>
+              </p>
             </div>
           </div>
-        )}
+        </div>
         
         <p className="text-gray-700 mb-6">
           If you have any questions, please contact us at:{' '}
