@@ -4,6 +4,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import Home from './pages/Home'
+import About from './pages/About'
 import Registration from './pages/Registration'
 import Programs from './pages/Programs'
 import Gallery from './pages/Gallery'
@@ -33,6 +34,7 @@ function App() {
           <Elements stripe={stripePromise} options={stripeOptions}>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
               <Route path="/register" element={<Registration />} />
               <Route path="/programs" element={<Programs />} />
               <Route path="/gallery" element={<Gallery />} />
