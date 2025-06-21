@@ -6,7 +6,7 @@ try {
   console.log('Testing PDF attachment logic...');
   
   // Test reading the static PDF file (similar to what the email function does)
-  const waiverPdfPath = path.join(__dirname, '..', 'public', 'documents', 'MC_Girls_Soccer_Camp_Waiver_2025.pdf');
+  const waiverPdfPath = path.join(__dirname, '..', 'public', 'documents', 'Colombo_Girls_Soccer_Camp_Waiver_2025.pdf');
   const pdfBuffer = fs.readFileSync(waiverPdfPath);
   
   console.log('✅ PDF file found and readable');

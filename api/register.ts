@@ -244,11 +244,11 @@ async function sendConfirmationEmail(params: {
     
     let waiverAttachment: Attachment | null = null
     try {
-      const waiverPdfPath = path.join(process.cwd(), 'public', 'documents', 'MC_Girls_Soccer_Camp_Waiver_2025.pdf')
+      const waiverPdfPath = path.join(process.cwd(), 'public', 'documents', 'Colombo_Girls_Soccer_Camp_Waiver_2025.pdf')
       const pdfBuffer = fs.readFileSync(waiverPdfPath)
       
       waiverAttachment = {
-        filename: 'MC_Girls_Soccer_Camp_Waiver_2025.pdf',
+        filename: 'Colombo_Girls_Soccer_Camp_Waiver_2025.pdf',
         content: pdfBuffer,
         contentType: 'application/pdf'
       }

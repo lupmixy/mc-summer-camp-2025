@@ -9,7 +9,7 @@ async function generatePdfWaiver() {
     console.log('Starting PDF generation...');
     
     // Read the HTML waiver file
-    const htmlPath = path.join(__dirname, '..', 'public', 'documents', 'MC_Girls_Soccer_Camp_Waiver_2025.html');
+    const htmlPath = path.join(__dirname, '..', 'public', 'documents', 'Colombo_Girls_Soccer_Camp_Waiver_2025.html');
     const htmlContent = fs.readFileSync(htmlPath, 'utf8');
     
     // Launch puppeteer
@@ -38,7 +38,7 @@ async function generatePdfWaiver() {
     });
     
     // Save PDF to public/documents
-    const pdfPath = path.join(__dirname, '..', 'public', 'documents', 'MC_Girls_Soccer_Camp_Waiver_2025.pdf');
+    const pdfPath = path.join(__dirname, '..', 'public', 'documents', 'Colombo_Girls_Soccer_Camp_Waiver_2025.pdf');
     fs.writeFileSync(pdfPath, pdf);
     
     console.log('PDF waiver generated successfully at:', pdfPath);

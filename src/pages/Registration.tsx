@@ -537,7 +537,7 @@ const RegistrationForm = () => {
               </p>
               <div className="flex flex-wrap gap-2 mb-3">
                 <a
-                  href="/documents/MC_Girls_Soccer_Camp_Waiver_2025.pdf"
+                  href="/documents/Colombo_Girls_Soccer_Camp_Waiver_2025.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center bg-mc-blue text-white px-4 py-2 rounded-md hover:bg-mc-blue-dark transition-colors text-sm font-medium"

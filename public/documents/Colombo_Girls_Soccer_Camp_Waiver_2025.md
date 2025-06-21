@@ -1,10 +1,11 @@
-# MALDEN CATHOLIC GIRLS SOCCER CAMP
+# COLOMBO GIRLS SOCCER CAMP
 ## LIABILITY WAIVER AND RELEASE FORM
 ### Summer 2025
 
 **Camp Dates:** August 4-7, 2025  
-**Location:** Brother Gilbert Stadium (Donovan Field), Malden Catholic High School  
-**Address:** 99 Crystal Street, Malden, MA 02148
+**Location:** Donovan Field, Malden Catholic High School  
+**Address:** 99 Crystal Street, Malden, MA 02148  
+**Camp Director:** Coach Michael Colombo
 
 ---
 
@@ -35,10 +36,10 @@ I understand that participation in soccer activities involves inherent risks, in
 - Transportation-related risks
 - Other risks associated with athletic activities
 
-I voluntarily assume all risks associated with my child's participation in the Malden Catholic Girls Soccer Camp.
+I voluntarily assume all risks associated with my child's participation in the Colombo Girls Soccer Camp.
 
 #### 2. RELEASE AND WAIVER
-In consideration for allowing my child to participate in the camp, I hereby release, waive, discharge, and covenant not to sue Malden Catholic High School, its directors, officers, employees, volunteers, coaches, and agents (collectively "Released Parties") from any and all liability, claims, demands, or causes of action arising from my child's participation in the camp, including but not limited to:
+In consideration for allowing my child to participate in the camp, I hereby release, waive, discharge, and covenant not to sue Michael Colombo (Camp Director), Colombo Girls Soccer Camp, and Malden Catholic High School (facility provider), their directors, officers, employees, volunteers, coaches, and agents (collectively "Released Parties") from any and all liability, claims, demands, or causes of action arising from my child's participation in the camp, including but not limited to:
 - Personal injury or death
 - Property damage or loss
 - Any other damages or losses
@@ -107,4 +108,4 @@ I acknowledge that:
 
 **IMPORTANT:** This waiver must be completed and returned before the first day of camp. Participants will not be allowed to participate without a signed waiver on file.
 
-For questions, contact: [camp email] or [phone number]
+For questions, contact: michael@mcolombo.com
