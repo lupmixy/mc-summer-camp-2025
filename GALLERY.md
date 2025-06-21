@@ -9,9 +9,11 @@ Due to Vercel's serverless function size limits, the gallery uses a predefined l
 ### Adding New Images
 
 1. **Copy your image files** to `/public/media/gallery/`
-2. **Update the gallery API** in `/api/gallery.ts`:
-   - Add your filename to the `mediaFiles` array
-   - Follow the existing pattern
+2. **Update the gallery API** using the helper script:
+   ```bash
+   npm run add-gallery-image your-image.jpg
+   ```
+   Or manually edit `/api/gallery.ts` and add your filename to the `mediaFiles` array
 3. **Supported formats:**
    - Images: `.jpg`, `.jpeg`, `.png`, `.gif`, `.webp`
    - Videos: `.mp4`, `.mov`, `.avi`
@@ -24,7 +26,12 @@ Due to Vercel's serverless function size limits, the gallery uses a predefined l
 cp my-new-image.jpg public/media/gallery/
 cp another-photo.png public/media/gallery/
 
-# 2. Edit api/gallery.ts and add to mediaFiles array:
+# 2. Add to gallery API (choose one method):
+# Method A: Use helper script (recommended)
+npm run add-gallery-image my-new-image.jpg
+npm run add-gallery-image another-photo.png
+
+# Method B: Manual edit - add to mediaFiles array in api/gallery.ts:
 #    'my-new-image.jpg',
 #    'another-photo.png'
 
