@@ -16,7 +16,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', 'true')
   res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS,PUT,DELETE')
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
 
   if (req.method === 'OPTIONS') {
@@ -29,37 +29,49 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // For Vercel, we need to serve the media files from the public directory
-    // The gallery images should be moved to client/public/media/gallery/
-    const galleryPath = path.join(process.cwd(), 'client/public/media/gallery')
+    // Path to the gallery directory (updated to correct location)
+    const galleryPath = path.join(process.cwd(), 'public', 'media', 'gallery')
     
     if (!await fileExists(galleryPath)) {
-      return res.status(404).json({ error: 'Gallery directory not found' })
+      console.warn('Gallery directory not found at:', galleryPath)
+      return res.json({ success: true, media: [], count: 0 })
     }
 
     const files = await fs.readdir(galleryPath)
-    const mediaFiles = await Promise.all(files
-      .filter(file => file.match(/\.(gif|jpg|jpeg|png)$/i) && !file.startsWith('.'))
-      .map(async (file, index) => {
-        const format = path.extname(file).toLowerCase().slice(1)
-        
-        // For production, use the request origin, for dev use relative paths
-        const baseUrl = req.headers.host?.includes('localhost') 
-          ? '' 
-          : `https://${req.headers.host}`
-        
+    
+    // Filter for image and video files, exclude hidden files
+    const mediaFiles = files
+      .filter(file => {
+        if (file.startsWith('.')) return false
+        const ext = path.extname(file).toLowerCase()
+        return ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.mp4', '.mov', '.avi'].includes(ext)
+      })
+      .map((file, index) => {
+        const ext = path.extname(file).toLowerCase()
         return {
           id: index + 1,
-          type: 'image',
-          src: `${baseUrl}/media/gallery/${file}`,
-          format
+          type: ['.mp4', '.mov', '.avi'].includes(ext) ? 'video' : 'image',
+          src: `/media/gallery/${file}`,
+          format: ext.substring(1), // Remove the dot
+          filename: file
         }
-      }))
+      })
 
-    res.json(mediaFiles)
+    // Sort by filename for consistent ordering
+    mediaFiles.sort((a, b) => a.filename.localeCompare(b.filename))
+
+    console.log(`Gallery API: Found ${mediaFiles.length} media files`)
+    
+    res.json({ 
+      success: true,
+      media: mediaFiles,
+      count: mediaFiles.length 
+    })
+
   } catch (error) {
+    console.error('Gallery API error:', error)
     res.status(500).json({ 
-      error: 'Failed to load media files',
+      error: 'Failed to load gallery media',
       details: error instanceof Error ? error.message : 'Unknown error'
     })
   }
