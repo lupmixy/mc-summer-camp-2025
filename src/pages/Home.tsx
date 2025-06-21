@@ -49,10 +49,10 @@ const Home = () => {
             className="w-24 h-24 md:w-32 md:h-32 mb-6"
           />
           <h1 className="text-4xl md:text-6xl font-bold mb-4">
-            MC Girls Soccer Camps
+            Colombo Girls Soccer Camps
           </h1>
           <p className="text-xl md:text-2xl mb-8 max-w-2xl">
-            Join us for an incredible summer of soccer development, fun, and growth
+            Led by MC Head Coach Michael Colombo at Malden Catholic's Donovan Field
           </p>
           <Link
             to="/register"
@@ -65,6 +65,25 @@ const Home = () => {
 
       {/* Programs Section */}
       <div className="max-w-6xl mx-auto px-4 py-12">
+        {/* About Coach Section */}
+        <div className="bg-white/90 backdrop-blur rounded-xl p-8 shadow-lg mb-12 text-center">
+          <div className="flex items-center justify-center mb-4">
+            <img 
+              src="/branding/soccerBearTatBrown.png" 
+              alt="Coach Colombo" 
+              className="w-16 h-16 mr-4"
+            />
+            <div>
+              <h2 className="text-2xl font-bold text-gray-800">Coach Michael Colombo</h2>
+              <p className="text-gray-600">Head Varsity Girls Soccer Coach, Malden Catholic</p>
+            </div>
+          </div>
+          <p className="text-gray-700 max-w-3xl mx-auto">
+            Join Coach Colombo for an intensive soccer experience on Malden Catholic's premier Donovan Field. 
+            This independent camp combines professional coaching with the excellent facilities that MC has to offer.
+          </p>
+        </div>
+
         <div className="grid md:grid-cols-2 gap-8">
           <Link 
             to="/register" 
@@ -85,7 +104,7 @@ const Home = () => {
             <ul className="space-y-2 mb-6 text-gray-700">
               <li>• August 4-7, 2025</li>
               <li>• 8:00 AM - 12:00 PM</li>
-              <li>• Brother Gilbert Stadium (Donovan Field)</li>
+              <li>• Malden Catholic's Donovan Field</li>
               <li>• All skill levels welcome</li>
               <li>• Focus on fundamentals and fun</li>
             </ul>
@@ -116,7 +135,7 @@ const Home = () => {
             <ul className="space-y-2 mb-6 text-gray-700">
               <li>• August 4-7, 2025</li>
               <li>• 8:00 AM - 12:00 PM</li>
-              <li>• Brother Gilbert Stadium (Donovan Field)</li>
+              <li>• Malden Catholic's Donovan Field</li>
               <li>• Advanced skill development</li>
               <li>• College prep focus</li>
             </ul>

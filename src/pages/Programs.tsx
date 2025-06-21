@@ -57,7 +57,7 @@ const Programs = () => {
                 <ul className="text-gray-700 space-y-1">
                   <li>• August 4-7, 2025</li>
                   <li>• 8:00 AM - 12:00 PM daily</li>
-                  <li>• Brother Gilbert Stadium (Donovan Field)</li>
+                  <li>• Malden Catholic's Donovan Field</li>
                 </ul>
               </div>
 
@@ -67,7 +67,7 @@ const Programs = () => {
                   <li>• Fundamental skill development</li>
                   <li>• Small-sided games</li>
                   <li>• Fun, engaging drills</li>
-                  <li>• Professional coaching</li>
+                  <li>• Led by MC Head Coach Michael Colombo</li>
                   <li>• Daily goalkeeper training</li>
                 </ul>
               </div>
@@ -104,7 +104,7 @@ const Programs = () => {
                 <ul className="text-gray-700 space-y-1">
                   <li>• August 4-7, 2025</li>
                   <li>• 9:00 AM - 2:00 PM daily</li>
-                  <li>• Brother Gilbert Stadium (Donovan Field)</li>
+                  <li>• Malden Catholic's Donovan Field</li>
                 </ul>
               </div>
 
@@ -115,7 +115,7 @@ const Programs = () => {
                   <li>• Position-specific development</li>
                   <li>• Competitive scrimmages</li>
                   <li>• College prep guidance</li>
-                  <li>• Video analysis sessions</li>
+                  <li>• Led by MC Head Coach Michael Colombo</li>
                 </ul>
               </div>
 

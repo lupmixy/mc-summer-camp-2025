@@ -15,7 +15,7 @@ const Navbar = () => {
             {/* Desktop Logo Text */}
             <div className="hidden sm:flex sm:flex-col">
               <span className="text-white font-bold text-lg leading-tight group-hover:text-mc-gold transition-colors">
-                MC Girls
+                Colombo Girls
               </span>
               <span className="text-mc-gold font-bold text-lg leading-tight group-hover:text-white transition-colors">
                 Soccer Camps
@@ -24,7 +24,7 @@ const Navbar = () => {
             {/* Mobile Logo Text */}
             <div className="flex sm:hidden">
               <span className="text-white font-bold text-sm leading-tight group-hover:text-mc-gold transition-colors">
-                MC Camp
+                Colombo Camp
               </span>
             </div>
           </Link>

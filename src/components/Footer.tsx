@@ -18,7 +18,10 @@ const Footer = () => {
               alt="MC Logo" 
               className="w-12 h-12 mb-2"
             />
-            <p>© 2025 Malden Catholic Girls Soccer Camps</p>
+            <p>© 2025 Michael Colombo</p>
+            <p className="text-sm text-gray-300 mt-1 max-w-xs">
+              Independent camp held at Malden Catholic facilities
+            </p>
           </div>
           <div className="text-center md:text-right">
             <p className="text-mc-gold font-bold mb-2">Location</p>

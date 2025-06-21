@@ -230,7 +230,7 @@ const Contact = () => {
               <div>
                 <h3 className="font-semibold text-gray-900">Location</h3>
                 <p className="text-gray-600">
-                  Brother Gilbert Stadium<br />
+                  Donovan Field<br />
                   Malden Catholic High School<br />
                   Malden, MA
                 </p>

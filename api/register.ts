@@ -53,7 +53,7 @@ const CAMP_DETAILS: CampDetails = {
     dates: 'August 4-7, 2025',
     time: '8:00 AM - 12:00 PM'
   },
-  location: 'Brother Gilbert Stadium (Donovan Field), Malden Catholic High School, 99 Crystal Street, Malden, MA 02148'
+  location: 'Donovan Field, Malden Catholic High School, 99 Crystal Street, Malden, MA 02148'
 }
 
 async function sendConfirmationEmail(params: {
@@ -225,9 +225,9 @@ async function sendConfirmationEmail(params: {
         </div>
         
         <div class="footer">
-          <p><strong>MC Girls Soccer Camp Team</strong></p>
+          <p><strong>Coach Michael Colombo</strong></p>
           <p>📧 <a href="mailto:mcgirlssoccer12@gmail.com">mcgirlssoccer12@gmail.com</a></p>
-          <p>🏟️ Brother Gilbert Stadium, Malden Catholic High School</p>
+          <p>🏟️ Donovan Field, Malden Catholic High School</p>
         </div>
       </div>
     </body>

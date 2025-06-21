@@ -161,9 +161,9 @@ async function sendContactNotification(contactData: {
         </div>
         
         <div class="footer">
-          <p><strong>MC Girls Soccer Camp Team</strong></p>
+          <p><strong>Coach Michael Colombo</strong></p>
           <p>📧 <a href="mailto:mcgirlssoccer12@gmail.com">mcgirlssoccer12@gmail.com</a></p>
-          <p>🏟️ Brother Gilbert Stadium, Malden Catholic High School</p>
+          <p>🏟️ Donovan Field, Malden Catholic High School</p>
         </div>
       </div>
     </body>
