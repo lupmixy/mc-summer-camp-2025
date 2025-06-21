@@ -533,21 +533,35 @@ const RegistrationForm = () => {
             <div>
               <h3 className="font-semibold text-yellow-800 mb-2">Required Waiver Form</h3>
               <p className="text-yellow-700 text-sm mb-3">
-                A signed waiver form is required before camp begins. You can download it now and either:
+                A signed waiver form is required before camp begins. Download it now:
               </p>
-              <ul className="text-yellow-700 text-sm mb-3 ml-4">
+              <div className="flex flex-wrap gap-2 mb-3">
+                <a
+                  href="/documents/MC_Girls_Soccer_Camp_Waiver_2025.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center bg-mc-blue text-white px-4 py-2 rounded-md hover:bg-mc-blue-dark transition-colors text-sm font-medium"
+                >
+                  <span className="mr-2">📄</span>
+                  Download PDF Waiver
+                </a>
+                <a
+                  href="/documents/MC_Girls_Soccer_Camp_Waiver_2025.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors text-sm font-medium"
+                >
+                  <span className="mr-2">🌐</span>
+                  View HTML Version
+                </a>
+              </div>
+              <p className="text-yellow-700 text-sm mb-2">
+                <strong>Two ways to submit after registration:</strong>
+              </p>
+              <ul className="text-yellow-700 text-sm ml-4">
                 <li>• Upload the signed PDF after completing registration, or</li>
                 <li>• Bring the completed form on the first day of camp</li>
               </ul>
-              <a
-                href="/documents/MC_Girls_Soccer_Camp_Waiver_2025.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center bg-mc-blue text-white px-4 py-2 rounded-md hover:bg-mc-blue-dark transition-colors text-sm font-medium"
-              >
-                <span className="mr-2">📥</span>
-                Download Waiver Form (Print as PDF)
-              </a>
             </div>
           </div>
         </div>

@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-waiver-pdf": "node scripts/generate-pdf-waiver.js"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",

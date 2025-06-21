@@ -75,15 +75,26 @@ const RegistrationSuccess = () => {
               </p>
               
               <div className="mb-4">
-                <a
-                  href="/documents/MC_Girls_Soccer_Camp_Waiver_2025.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center bg-mc-blue text-white px-4 py-2 rounded-md hover:bg-mc-blue-dark transition-colors text-sm font-medium mr-3 mb-2"
-                >
-                  <span className="mr-2">📥</span>
-                  Download Waiver Form
-                </a>
+                <div className="flex flex-wrap gap-2">
+                  <a
+                    href="/documents/MC_Girls_Soccer_Camp_Waiver_2025.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center bg-mc-blue text-white px-4 py-2 rounded-md hover:bg-mc-blue-dark transition-colors text-sm font-medium"
+                  >
+                    <span className="mr-2">�</span>
+                    Download PDF Waiver
+                  </a>
+                  <a
+                    href="/documents/MC_Girls_Soccer_Camp_Waiver_2025.html"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors text-sm font-medium"
+                  >
+                    <span className="mr-2">🌐</span>
+                    View HTML Version
+                  </a>
+                </div>
               </div>
               
               <div className="bg-blue-50 border border-blue-200 rounded p-3">
