@@ -11,7 +11,8 @@ const Home = () => {
     '/images/hero/mcSoccerCamp2024-39.jpg',
     '/images/hero/mcSoccerCamp2024-42.jpg',
     '/images/hero/mcSoccerCamp2024-45.jpg',
-    '/images/hero/mcSoccerCamp2024-48.jpg'
+    '/images/hero/mcSoccerCamp2024-48.jpg',
+    '/images/hero/2024teamPic.png'
   ], [])
 
   useEffect(() => {
