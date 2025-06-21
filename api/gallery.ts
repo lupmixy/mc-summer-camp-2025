@@ -79,6 +79,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       'IMG_1446-Animated Image (Large).gif',
       'IMG_1447-Animated Image (Large).gif',
       // Custom images
+      '2024teamPic.png',
       'happy.png',
       'serious.png'
     ]
