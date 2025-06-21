@@ -88,7 +88,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       paymentStatus: reg.paymentStatus || 'paid',
       amount: reg.amount,
       createdAt: reg.createdAt,
-      status: reg.status || 'confirmed'
+      status: reg.status || 'confirmed',
+      waiverUploaded: reg.waiverUploaded || false,
+      waiverUploadDate: reg.waiverUploadDate,
+      waiverDocumentId: reg.waiverDocumentId
     }))
 
     // Format contact submissions

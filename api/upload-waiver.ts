@@ -95,7 +95,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     
     await client.connect()
     console.log('Connected to MongoDB')
-    const db = client.db('mc-soccer-camp')
+    const db = client.db('mc-soccer-camps')
     
     // Store the file data
     console.log('Storing waiver data in MongoDB...')

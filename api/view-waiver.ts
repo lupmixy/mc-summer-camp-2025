@@ -36,7 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     })
     
     await client.connect()
-    const db = client.db('mc-soccer-camp')
+    const db = client.db('mc-soccer-camps')
     
     // Find the waiver document
     const waiver = await db.collection('waivers').findOne({
