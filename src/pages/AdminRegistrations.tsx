@@ -285,8 +285,8 @@ const AdminRegistrations = () => {
         <div className="bg-white/90 backdrop-blur rounded-xl p-8 shadow-lg max-w-md w-full mx-4">
           <div className="text-center mb-6">
             <img 
-              src="/branding/mclogo.png" 
-              alt="MC Logo" 
+              src="/branding/soccerBearTatBrown.png" 
+              alt="Colombo Soccer Camp Logo" 
               className="w-16 h-16 mx-auto mb-4"
             />
             <h1 className="text-2xl font-bold text-mc-blue">Admin Access</h1>

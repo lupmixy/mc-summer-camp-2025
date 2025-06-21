@@ -33,8 +33,8 @@ const WaiverSubmission = () => {
         <div className="max-w-2xl mx-auto">
           <div className="bg-white/90 backdrop-blur rounded-xl p-8 shadow-lg text-center">
             <img 
-              src="/branding/mclogo.png" 
-              alt="MC Logo" 
+              src="/branding/soccerBearTatBrown.png" 
+              alt="Colombo Soccer Camp Logo" 
               className="w-24 h-24 mx-auto mb-6"
             />
             <h1 className="text-2xl font-bold text-red-600 mb-4">
@@ -74,15 +74,15 @@ const WaiverSubmission = () => {
         <div className="bg-white/90 backdrop-blur rounded-xl p-8 shadow-lg">
           <div className="text-center mb-8">
             <img 
-              src="/branding/mclogo.png" 
-              alt="MC Logo" 
+              src="/branding/soccerBearTatBrown.png" 
+              alt="Colombo Soccer Camp Logo" 
               className="w-24 h-24 mx-auto mb-6"
             />
             <h1 className="text-3xl font-bold text-mc-blue mb-4">
               Submit Waiver Form
             </h1>
             <p className="text-gray-700 mb-2">
-              MC Girls Soccer Camp 2025
+              Colombo Girls Soccer Camp 2025
             </p>
             {playerName && (
               <p className="text-lg font-semibold text-mc-blue">
@@ -132,10 +132,10 @@ const WaiverSubmission = () => {
               If you have any questions about the waiver form, please contact us:
             </p>
             <a 
-              href="mailto:mcgirlssoccer12@gmail.com" 
+              href="mailto:michael@mcolombo.com" 
               className="text-mc-blue hover:text-mc-blue-dark underline font-medium"
             >
-              mcgirlssoccer12@gmail.com
+              michael@mcolombo.com
             </a>
           </div>
 

@@ -63,8 +63,8 @@ const Contact = () => {
       <div className="max-w-2xl mx-auto text-center">
         <div className="bg-white/90 backdrop-blur rounded-xl p-8 shadow-lg">
           <img 
-            src="/branding/mclogo.png" 
-            alt="MC Logo" 
+            src="/branding/soccerBearTatBrown.png" 
+            alt="Colombo Soccer Camp Logo" 
             className="w-24 h-24 mx-auto mb-6"
           />
           <h1 className="text-3xl font-bold text-mc-blue mb-4">
@@ -216,7 +216,7 @@ const Contact = () => {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900">Email</h3>
-                <p className="text-gray-600">mcgirlssoccer12@gmail.com</p>
+                <p className="text-gray-600">michael@mcolombo.com</p>
               </div>
             </div>
 

@@ -40,8 +40,8 @@ const RegistrationSuccess = () => {
     <div className="max-w-2xl mx-auto text-center">
       <div className="bg-white/90 backdrop-blur rounded-xl p-8 shadow-lg">
         <img 
-          src="/branding/mclogo.png" 
-          alt="MC Logo" 
+          src="/branding/soccerBearTatBrown.png" 
+          alt="Colombo Soccer Camp Logo" 
           className="w-24 h-24 mx-auto mb-6"
         />
         <h1 className="text-3xl font-bold text-mc-blue mb-4">
@@ -143,10 +143,10 @@ const RegistrationSuccess = () => {
         <p className="text-gray-700 mb-6">
           If you have any questions, please contact us at:{' '}
           <a 
-            href="mailto:mcgirlssoccer12@gmail.com" 
+            href="mailto:michael@mcolombo.com" 
             className="text-mc-blue hover:text-mc-blue-dark underline"
           >
-            mcgirlssoccer12@gmail.com
+            michael@mcolombo.com
           </a>
         </p>
         <Link

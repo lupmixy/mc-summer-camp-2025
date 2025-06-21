@@ -226,7 +226,7 @@ async function sendConfirmationEmail(params: {
         
         <div class="footer">
           <p><strong>Coach Michael Colombo</strong></p>
-          <p>📧 <a href="mailto:mcgirlssoccer12@gmail.com">mcgirlssoccer12@gmail.com</a></p>
+          <p>📧 <a href="mailto:michael@mcolombo.com">michael@mcolombo.com</a></p>
           <p>🏟️ Donovan Field, Malden Catholic High School</p>
         </div>
       </div>
@@ -258,7 +258,7 @@ async function sendConfirmationEmail(params: {
     }
 
     const mailOptions = {
-      from: '"MC Girls Soccer Camp" <mcgirlssoccer12@gmail.com>',
+      from: '"Colombo Soccer Camp" <michael@mcolombo.com>',
       to: to,
       bcc: 'michael@mcolombo.com',
       subject: 'MC Girls Soccer Camp Registration Confirmation',

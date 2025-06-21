@@ -6,10 +6,10 @@ const Footer = () => {
           <div className="text-center md:text-left">
             <h3 className="text-mc-gold font-bold mb-2">Contact Us</h3>
             <a 
-              href="mailto:mcgirlssoccer12@gmail.com"
+              href="mailto:michael@mcolombo.com"
               className="hover:text-mc-gold transition-colors"
             >
-              mcgirlssoccer12@gmail.com
+              michael@mcolombo.com
             </a>
           </div>
           <div className="text-center flex flex-col items-center">

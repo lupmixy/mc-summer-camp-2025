@@ -44,8 +44,8 @@ const Home = () => {
         <div className="relative h-full flex flex-col items-center justify-center text-white text-center px-4">
           {/* Logo */}
           <img 
-            src="/branding/mclogo.png" 
-            alt="MC Logo" 
+            src="/branding/soccerBearTatBrown.png" 
+            alt="Colombo Soccer Camp Logo" 
             className="w-24 h-24 md:w-32 md:h-32 mb-6"
           />
           <h1 className="text-4xl md:text-6xl font-bold mb-4">

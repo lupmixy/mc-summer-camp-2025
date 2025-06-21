@@ -142,10 +142,10 @@ const Programs = () => {
                 Questions?
               </span>
               <a 
-                href="mailto:mcgirlssoccer12@gmail.com" 
+                href="mailto:michael@mcolombo.com" 
                 className="text-mc-blue hover:text-mc-gold transition-colors font-bold text-lg leading-tight"
               >
-                mcgirlssoccer12@gmail.com
+                michael@mcolombo.com
               </a>
             </div>
           </div>
