@@ -3,7 +3,6 @@ import { MongoClient } from 'mongodb'
 import nodemailer from 'nodemailer'
 import fs from 'fs'
 import path from 'path'
-import puppeteer, { Browser } from 'puppeteer'
 
 // MongoDB connection
 const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/mc-soccer-camps'
@@ -55,43 +54,6 @@ const CAMP_DETAILS: CampDetails = {
     time: '8:00 AM - 12:00 PM'
   },
   location: 'Brother Gilbert Stadium (Donovan Field), Malden Catholic High School, 99 Crystal Street, Malden, MA 02148'
-}
-
-async function convertHtmlToPdf(htmlContent: string): Promise<Buffer> {
-  let browser: Browser | null = null
-  try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--no-first-run',
-        '--no-zygote',
-        '--single-process',
-        '--disable-gpu'
-      ]
-    })
-    
-    const page = await browser.newPage()
-    await page.setContent(htmlContent, { waitUntil: 'networkidle0' })
-    
-    const pdf = await page.pdf({
-      format: 'A4',
-      printBackground: true,
-      margin: { top: '0.5in', bottom: '0.5in', left: '0.5in', right: '0.5in' }
-    })
-    
-    return Buffer.from(pdf)
-  } catch (error) {
-    console.error('Error converting HTML to PDF:', error)
-    throw error
-  } finally {
-    if (browser) {
-      await browser.close()
-    }
-  }
 }
 
 async function sendConfirmationEmail(params: {
@@ -273,7 +235,7 @@ async function sendConfirmationEmail(params: {
   `
 
   try {
-    // Generate PDF waiver attachment
+    // Use static PDF waiver attachment
     interface Attachment {
       filename: string
       content: Buffer
@@ -282,19 +244,17 @@ async function sendConfirmationEmail(params: {
     
     let waiverAttachment: Attachment | null = null
     try {
-      const waiverPath = path.join(process.cwd(), 'public', 'documents', 'MC_Girls_Soccer_Camp_Waiver_2025.html')
-      const waiverHtmlContent = fs.readFileSync(waiverPath, 'utf8')
-      
-      // Convert HTML to PDF
-      const pdfBuffer = await convertHtmlToPdf(waiverHtmlContent)
+      const waiverPdfPath = path.join(process.cwd(), 'public', 'documents', 'MC_Girls_Soccer_Camp_Waiver_2025.pdf')
+      const pdfBuffer = fs.readFileSync(waiverPdfPath)
       
       waiverAttachment = {
         filename: 'MC_Girls_Soccer_Camp_Waiver_2025.pdf',
         content: pdfBuffer,
         contentType: 'application/pdf'
       }
+      console.log('PDF waiver attached successfully')
     } catch (fileError) {
-      console.warn('Could not generate PDF waiver for attachment:', fileError)
+      console.warn('Could not read static PDF waiver for attachment:', fileError)
     }
 
     const mailOptions = {
