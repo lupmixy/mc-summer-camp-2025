@@ -10,6 +10,7 @@ import Gallery from './pages/Gallery'
 import RegistrationSuccess from './pages/RegistrationSuccess'
 import AdminRegistrations from './pages/AdminRegistrations'
 import Contact from './pages/Contact'
+import WaiverSubmission from './pages/WaiverSubmission'
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
@@ -37,6 +38,7 @@ function App() {
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/registration-success" element={<RegistrationSuccess />} />
+              <Route path="/waiver-submission" element={<WaiverSubmission />} />
               <Route path="/admin" element={<AdminRegistrations />} />
             </Routes>
           </Elements>

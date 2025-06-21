@@ -59,8 +59,9 @@ async function sendConfirmationEmail(params: {
   playerName: string
   parentName: string
   program: Program
+  registrationId: string
 }) {
-  const { to, playerName, parentName, program } = params
+  const { to, playerName, parentName, program, registrationId } = params
   const campInfo = CAMP_DETAILS[program]
   const programName = program === 'youth' ? 'Youth Program (Ages 8-14)' : 'High School Program (Grades 8-12)'
 
@@ -196,6 +197,18 @@ async function sendConfirmationEmail(params: {
             </ul>
           </div>
 
+          <div class="details-box">
+            <h3>📄 Important: Waiver Form Required</h3>
+            <p style="margin-bottom: 15px;">A signed waiver form is required before camp begins. You can submit it at your convenience using the link below:</p>
+            <div style="text-align: center; margin: 20px 0;">
+              <a href="${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'}/waiver-submission?registrationId=${registrationId}&playerName=${encodeURIComponent(playerName)}" 
+                 style="display: inline-block; background: linear-gradient(135deg, #C5B358, #B8A147); color: #003087; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px;">
+                📄 Submit Waiver Form Online
+              </a>
+            </div>
+            <p style="font-size: 14px; color: #666; text-align: center;">Click the link above to download, fill out, and upload your signed waiver</p>
+          </div>
+
           <p>We're excited to have <strong>${playerName}</strong> join us this summer! You will receive additional information about training groups and detailed schedule closer to the camp date.</p>
           
           <p>If you have any questions, please don't hesitate to contact us.</p>
@@ -305,7 +318,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       to: registration.email,
       playerName: `${registration.playerFirstName} ${registration.playerLastName}`,
       parentName: `${registration.parentFirstName} ${registration.parentLastName}`,
-      program: registration.program
+      program: registration.program,
+      registrationId: result.insertedId.toString()
     })
 
     console.log('Confirmation email sent successfully')
