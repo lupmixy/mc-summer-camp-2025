@@ -1,6 +1,9 @@
 import { VercelRequest, VercelResponse } from '@vercel/node'
 import { MongoClient } from 'mongodb'
 import nodemailer from 'nodemailer'
+import fs from 'fs'
+import path from 'path'
+import puppeteer, { Browser } from 'puppeteer'
 
 // MongoDB connection
 const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/mc-soccer-camps'
@@ -52,6 +55,43 @@ const CAMP_DETAILS: CampDetails = {
     time: '8:00 AM - 12:00 PM'
   },
   location: 'Brother Gilbert Stadium (Donovan Field), Malden Catholic High School, 99 Crystal Street, Malden, MA 02148'
+}
+
+async function convertHtmlToPdf(htmlContent: string): Promise<Buffer> {
+  let browser: Browser | null = null
+  try {
+    browser = await puppeteer.launch({
+      headless: true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-accelerated-2d-canvas',
+        '--no-first-run',
+        '--no-zygote',
+        '--single-process',
+        '--disable-gpu'
+      ]
+    })
+    
+    const page = await browser.newPage()
+    await page.setContent(htmlContent, { waitUntil: 'networkidle0' })
+    
+    const pdf = await page.pdf({
+      format: 'A4',
+      printBackground: true,
+      margin: { top: '0.5in', bottom: '0.5in', left: '0.5in', right: '0.5in' }
+    })
+    
+    return Buffer.from(pdf)
+  } catch (error) {
+    console.error('Error converting HTML to PDF:', error)
+    throw error
+  } finally {
+    if (browser) {
+      await browser.close()
+    }
+  }
 }
 
 async function sendConfirmationEmail(params: {
@@ -199,14 +239,22 @@ async function sendConfirmationEmail(params: {
 
           <div class="details-box">
             <h3>📄 Important: Waiver Form Required</h3>
-            <p style="margin-bottom: 15px;">A signed waiver form is required before camp begins. You can submit it at your convenience using the link below:</p>
+            <p style="margin-bottom: 15px;">A signed waiver form is required before camp begins. We've attached the waiver form to this email as a PDF and provided multiple ways to submit it:</p>
+            <div style="background: #f0f9ff; border: 1px solid #0284c7; border-radius: 6px; padding: 15px; margin: 15px 0;">
+              <p style="margin: 0 0 10px 0; font-weight: bold; color: #0284c7;">📎 Waiver form attached to this email (PDF)</p>
+              <p style="margin: 0; font-size: 14px; color: #374151;">Print the attached PDF and complete it with signatures</p>
+            </div>
             <div style="text-align: center; margin: 20px 0;">
               <a href="${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : process.env.NODE_ENV === 'production' ? 'https://mc-soccer.com' : 'http://localhost:3000'}/waiver-submission?registrationId=${registrationId}&playerName=${encodeURIComponent(playerName)}" 
                  style="display: inline-block; background: linear-gradient(135deg, #C5B358, #B8A147); color: #003087; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 16px;">
                 📄 Submit Waiver Form Online
               </a>
             </div>
-            <p style="font-size: 14px; color: #666; text-align: center;">Click the link above to download, fill out, and upload your signed waiver</p>
+            <p style="font-size: 14px; color: #666; text-align: center;">
+              <strong>Two ways to submit:</strong><br>
+              • Use the button above to upload your signed PDF online<br>
+              • Bring the completed form on the first day of camp
+            </p>
           </div>
 
           <p>We're excited to have <strong>${playerName}</strong> join us this summer! You will receive additional information about training groups and detailed schedule closer to the camp date.</p>
@@ -225,13 +273,40 @@ async function sendConfirmationEmail(params: {
   `
 
   try {
-    const info = await transporter.sendMail({
+    // Generate PDF waiver attachment
+    interface Attachment {
+      filename: string
+      content: Buffer
+      contentType: string
+    }
+    
+    let waiverAttachment: Attachment | null = null
+    try {
+      const waiverPath = path.join(process.cwd(), 'public', 'documents', 'MC_Girls_Soccer_Camp_Waiver_2025.html')
+      const waiverHtmlContent = fs.readFileSync(waiverPath, 'utf8')
+      
+      // Convert HTML to PDF
+      const pdfBuffer = await convertHtmlToPdf(waiverHtmlContent)
+      
+      waiverAttachment = {
+        filename: 'MC_Girls_Soccer_Camp_Waiver_2025.pdf',
+        content: pdfBuffer,
+        contentType: 'application/pdf'
+      }
+    } catch (fileError) {
+      console.warn('Could not generate PDF waiver for attachment:', fileError)
+    }
+
+    const mailOptions = {
       from: '"MC Girls Soccer Camp" <mcgirlssoccer12@gmail.com>',
       to: to,
       bcc: 'michael@mcolombo.com',
       subject: 'MC Girls Soccer Camp Registration Confirmation',
-      html: html
-    })
+      html: html,
+      attachments: waiverAttachment ? [waiverAttachment] : []
+    }
+
+    const info = await transporter.sendMail(mailOptions)
 
     console.log('Email sent successfully:', info.messageId)
     return info

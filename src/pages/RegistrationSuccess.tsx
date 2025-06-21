@@ -71,16 +71,30 @@ const RegistrationSuccess = () => {
             <div>
               <h3 className="text-lg font-semibold text-yellow-800 mb-2">Next Step: Waiver Form</h3>
               <p className="text-yellow-700 mb-3">
-                A signed waiver form is required before camp begins. We've sent you an email with a convenient link to:
+                A signed waiver form is required before camp begins. We've sent you an email with a convenient link to submit it online, or you can download it now:
               </p>
-              <ul className="text-yellow-700 text-sm mb-3 ml-4">
-                <li>• Download the waiver form</li>
-                <li>• Upload your completed and signed waiver</li>
-                <li>• Automatically link it to your registration</li>
-              </ul>
-              <p className="text-yellow-700 text-sm">
-                <strong>Check your email for the waiver submission link!</strong>
-              </p>
+              
+              <div className="mb-4">
+                <a
+                  href="/documents/MC_Girls_Soccer_Camp_Waiver_2025.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center bg-mc-blue text-white px-4 py-2 rounded-md hover:bg-mc-blue-dark transition-colors text-sm font-medium mr-3 mb-2"
+                >
+                  <span className="mr-2">📥</span>
+                  Download Waiver Form
+                </a>
+              </div>
+              
+              <div className="bg-blue-50 border border-blue-200 rounded p-3">
+                <p className="text-blue-700 text-sm mb-2">
+                  <strong>Two ways to submit your waiver:</strong>
+                </p>
+                <ul className="text-blue-700 text-sm ml-4 space-y-1">
+                  <li>• <strong>Online:</strong> Use the link in your confirmation email to upload the signed PDF</li>
+                  <li>• <strong>In Person:</strong> Bring the completed form on the first day of camp</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
